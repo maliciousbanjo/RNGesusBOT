@@ -4,21 +4,27 @@
   "description": "A bot to interact with the Discord API for use on my server.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": ""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/maliciousBanjo/RNGE%08esusBOT.git"
+    "url": "https://github.com/maliciousbanjo/RNGesusBOT"
   },
   "keywords": [
     "Discord",
-    "\b\b",
-    "Bot\b\b\b\b\b"
+    "Bot"
   ],
-  "author": "J\bMaliciousBn\banjo",
+  "author": "MaliciousBn\banjo",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/maliciousBanjo/RNGE%08esusBOT/issues"
   },
-  "homepage": "https://github.com/maliciousBanjo/RNGE%08esusBOT#readme"
+  "homepage": "https://github.com/maliciousBanjo/RNGE%08esusBOT#readme",
+  "dependencies": {
+    "discord.js": "^11.3.0",
+    "dotenv": "^5.0.0"
+  },
+  "devDependencies": {
+    "install-peers": "^1.0.2"
+  }
 }
