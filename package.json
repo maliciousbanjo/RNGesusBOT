@@ -22,7 +22,8 @@
   "homepage": "https://github.com/maliciousBanjo/RNGE%08esusBOT#readme",
   "dependencies": {
     "discord.js": "^11.3.0",
-    "dotenv": "^5.0.0"
+    "dotenv": "^5.0.0",
+    "node-schedule": "^1.3.0"
   },
   "devDependencies": {
     "install-peers": "^1.0.2"
