@@ -7,10 +7,6 @@ const client = new Discord.Client();
 const tokenTest = process.env.TESTING;
 const token = process.env.RNGESUS;
 
-var j = schedule.scheduleJob("33 12 * * *", function() {
-    console.log("It is Saturday, my dudes.");
-});
-
 client.on('ready', () => {
     console.log("Logged in as " + client.user.tag + "!");
     client.user.setActivity("God");
