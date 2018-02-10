@@ -13,7 +13,7 @@ var j = schedule.scheduleJob("33 12 * * *", function() {
 
 client.on('ready', () => {
     console.log("Logged in as " + client.user.tag + "!");
-    client.user.setActivity("I can roll now");
+    client.user.setActivity("God");
 
     // Test Wednesday
     // var wednesday = schedule.scheduleJob("45 12 * * 6", function() {
