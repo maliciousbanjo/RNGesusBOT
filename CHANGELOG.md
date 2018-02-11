@@ -3,7 +3,12 @@ RNGesusBot Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.1.1.] - Current
+## [1.2.0] - Current
+
+-Help message
+-britbong command
+
+## [1.1.1.] - Released
 
 -Bugfix on scheduler
 

@@ -34,13 +34,22 @@ client.on('message', msg => {
     if (msg.content.toLowerCase().includes("!ffum")) {
         msg.channel.send(ffum());
     }
+    if (msg.content.toLowerCase().includes("!help")) {
+        msg.channel.send(help());
+    }
+    if (msg.content.toLowerCase().includes("!britbong")) {
+        msg.channel.send(britbong());
+    }
 });
 
 //client.login(tokenTest);
 client.login(token);
 
-// Define command/responses
-function roll(){
+
+/*  Name: roll
+*   Explicit command, roll a 20-sided die
+*/
+function roll() {
     const roll = Math.floor(Math.random() * 21) + 1;
     if (roll != 21){
         return roll;
@@ -51,8 +60,62 @@ function roll(){
     }
 }
 
+/*  Name: muff
+*   Explicit command, return the Muffin face multi-emote
+*/
+function muff() {
+    var response = "<:muff1:260651711381766144><:muff2:260651722114990082>\n" 
+        + "<:muff3:260651732382646273><:muff4:260651744927809536>";
+    return response;
+}
+
+/*  Name: ffum
+*   Explicit command, return the inverted Muffin face multi-emote
+*/
+function ffum() {
+    var response = "<:muff2:260651722114990082><:muff1:260651711381766144>\n"
+        +"<:muff3:260651732382646273><:muff4:260651744927809536>";
+    return response;
+}
+
+/*  Name: britbong
+*   Explicit command, return the winged pilgrim
+*/
+function britbong() {
+    var response = "<:wingL:347944440272519169><:pilgrim:347944396127469571><:wingR:347944450116288513>";
+    return response;
+}
+
+/*  Name: help
+*   Explicit command, return a list of all other available commands
+*/
+function help() {
+    var embed = {embed: {
+        color: 3447003,
+        author: {
+          name: client.user.username,
+          icon_url: client.user.avatarURL
+        },
+        title: "GitHub Link",
+        url: "https://github.com/maliciousbanjo/RNGesusBOT",
+        description: "I am a just god, because I am unbiased.",
+        fields: [{
+            name: "Commands",
+            value: "!roll - Roll a 20-sided die\n" +
+            "!muff - Muffin face multi-emote\n" +
+            "!ffum - Inverted Muffin face multi-emote\n" + 
+            "!britbong - The winged pilgrim himself"
+          },
+        ],
+      }
+    };
+    return embed;
+}
+
+/*  Name: kekCzech
+*   Implicit command, called whenever someone says "kek"
+*/
 function kekCzech(message) {
-    // Czech for that kek
     var chance = Math.floor(Math.random() * 20); // Golden kek
     var goldenKek = false;
     if (chance == 0) {
@@ -68,16 +131,4 @@ function kekCzech(message) {
             message.reply("http://i.imgur.com/MJ4QnXr.jpg");
         }
     }
-}
-
-function muff() {
-    var response = "<:muff1:260651711381766144><:muff2:260651722114990082>\n" 
-        + "<:muff3:260651732382646273><:muff4:260651744927809536>";
-    return response;
-}
-
-function ffum(){
-    var response = "<:muff2:260651722114990082><:muff1:260651711381766144>\n"
-        +"<:muff3:260651732382646273><:muff4:260651744927809536>";
-    return response;
 }
