@@ -9,7 +9,7 @@ const token = process.env.RNGESUS;
 
 client.on('ready', () => {
     console.log("Logged in as " + client.user.tag + "!");
-    client.user.setActivity("God");
+    client.user.setActivity("God | !help");
 
     // Test Wednesday
     // var wednesday = schedule.scheduleJob("45 12 * * 6", function() {
