@@ -37,8 +37,8 @@ client.on('message', msg => {
     if (msg.content.toLowerCase().includes("!help")) {
         msg.channel.send(help());
     }
-    if (msg.content.toLowerCase().includes("!britbong")) {
-        msg.channel.send(britbong());
+    if (msg.content.toLowerCase().includes("!pilgrim")) {
+        msg.channel.send(pilgrim());
     }
 });
 
@@ -81,7 +81,7 @@ function ffum() {
 /*  Name: britbong
 *   Explicit command, return the winged pilgrim
 */
-function britbong() {
+function pilgrim() {
     var response = "<:wingL:347944440272519169><:pilgrim:347944396127469571><:wingR:347944450116288513>";
     return response;
 }
@@ -104,7 +104,7 @@ function help() {
             value: "!roll - Roll a 20-sided die\n" +
             "!muff - Muffin face multi-emote\n" +
             "!ffum - Inverted Muffin face multi-emote\n" + 
-            "!britbong - The winged pilgrim himself"
+            "!pilgrim - The winged pilgrim himself"
           },
         ],
       }
