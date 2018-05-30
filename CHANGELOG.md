@@ -3,7 +3,10 @@ RNGesusBot Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.2.1] - Current
+## [1.3.0] - Current
+- Introducing random insults
+
+## [1.2.1] - Released
 - Renamed britbong command to pilgrim
 
 ## [1.2.0] - Released

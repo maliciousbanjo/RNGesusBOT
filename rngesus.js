@@ -2,8 +2,8 @@ require('dotenv').config();
 var request = require('request-promise');
 var schedule = require('node-schedule');
 const Discord = require('discord.js');
-const client = new Discord.Client();
 
+const client = new Discord.Client();
 const tokenTest = process.env.TESTING;
 const token = process.env.RNGESUS;
 
@@ -23,27 +23,56 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     if (msg.content.toLowerCase().includes("!roll")) {
-        msg.reply(roll());
+        if (randomizerOdds(30)) {
+            insultMe().then(result => {
+                msg.channel.send(result);
+            });
+        } else {
+            msg.reply(roll());
+        }
     }
+
     if (msg.content.toLowerCase().includes("kek")){
-        //msg.reply(kekCzech(msg.author));
         kekCzech(msg);
     }
+
     if (msg.content.toLowerCase().includes("!muff")) {
-        msg.channel.send(muff());
+        if (randomizerOdds(10)) {
+            insultMe().then(result => {
+                msg.channel.send(result);
+            });
+        } else {
+            msg.channel.send(muff());
+        }
     }
+
     if (msg.content.toLowerCase().includes("!ffum")) {
-        msg.channel.send(ffum());
+        if (randomizerOdds(10)) {
+            insultMe().then(result => {
+                msg.channel.send(result);
+            });
+        } else {
+            msg.channel.send(ffum());
+        }
     }
+
     if (msg.content.toLowerCase().includes("!help")) {
         msg.channel.send(help());
     }
+    
     if (msg.content.toLowerCase().includes("!pilgrim")) {
-        msg.channel.send(pilgrim());
+        if (randomizerOdds(10)) {
+            insultMe().then(result => {
+                msg.channel.send(result);
+            });
+        } else {
+            msg.channel.send(pilgrim());
+        }
     }
+
     if(msg.content.toLowerCase().includes("!insult")) {
         insultMe().then(result => {
-            msg.channel.send(result.insult);
+            msg.channel.send(result);
         });
     }
 });
@@ -51,55 +80,61 @@ client.on('message', msg => {
 client.login(tokenTest);
 //client.login(token);
 
+/**
+ * Determine a random number in a certain range. If 0, return true.
+ * @param {number} number - Highest odd
+ */
+function randomizerOdds(number) {
+    const roll = Math.floor(Math.random() * (number));
+    if (roll == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
-/*  
-*   Name: roll
-*   Explicit command, roll a 20-sided die
-*/
+/**  
+ *   Explicit command, roll a 20-sided die
+ */
 function roll() {
     const roll = Math.floor(Math.random() * 21) + 1;
     if (roll != 21) {
         return roll;
-    }
-    else {
+    } else {
         console.log("Someone has fucked off.");
         return "Go fuck yourself.";
     }
 }
 
-/*  
-*   Name: muff
-*   Explicit command, return the Muffin face multi-emote
-*/
+/**  
+ *   Explicit command, return the Muffin face multi-emote
+ */
 function muff() {
     var response = "<:muff1:260651711381766144><:muff2:260651722114990082>\n" 
         + "<:muff3:260651732382646273><:muff4:260651744927809536>";
     return response;
 }
 
-/*  
-*   Name: ffum
-*   Explicit command, return the inverted Muffin face multi-emote
-*/
+/**  
+ *   Explicit command, return the inverted Muffin face multi-emote
+ */
 function ffum() {
     var response = "<:muff2:260651722114990082><:muff1:260651711381766144>\n"
         +"<:muff3:260651732382646273><:muff4:260651744927809536>";
     return response;
 }
 
-/*  
-*   Name: britbong
-*   Explicit command, return the winged pilgrim
-*/
+/**  
+ *   Explicit command, return the winged pilgrim
+ */
 function pilgrim() {
     var response = "<:wingL:347944440272519169><:pilgrim:347944396127469571><:wingR:347944450116288513>";
     return response;
 }
 
-/*  
-*   Name: help
-*   Explicit command, return a list of all other available commands
-*/
+/**  
+ *   Explicit command, return a list of all other available commands
+ */
 function help() {
     var embed = {embed: {
         color: 3447003,
@@ -123,10 +158,9 @@ function help() {
     return embed;
 }
 
-/*  
-*   Name: kekCzech
-*   Implicit command, called whenever someone says "kek"
-*/
+/**  
+ *   Implicit command, called whenever someone says "kek"
+ */
 function kekCzech(message) {
     var chance = Math.floor(Math.random() * 20); // Golden kek
     var goldenKek = false;
@@ -146,7 +180,6 @@ function kekCzech(message) {
 }
 
 /**
- * Name: Insult Generator
  * Provide a random insult
  */
 function insultMe() {
@@ -156,8 +189,10 @@ function insultMe() {
         uri: "https://insult.mattbas.org/api/insult.json",
         json: true
     }
-    return request(options).then(body => {
+
+    return request(options)
+    .then(body => {
         console.log(body);
-        return body;
+        return body.insult;
     });
 }
