@@ -1,6 +1,6 @@
 require('dotenv').config();
+var request = require('request-promise');
 var schedule = require('node-schedule');
-
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
@@ -12,12 +12,13 @@ client.on('ready', () => {
     client.user.setActivity("God | !help");
 
     // Test Wednesday
-    // var wednesday = schedule.scheduleJob("45 12 * * 6", function() {
-    //     client.channels.get("303282388237025282").send("https://i.imgur.com/SPDD3R2.jpg");
-    // });
-    var wednesday = schedule.scheduleJob("0 0 * * 3", function() {
-        client.channels.get("126786138596704256").send("https://i.imgur.com/SPDD3R2.jpg");
+    var wednesday = schedule.scheduleJob("25 8 * * *", function() {
+        console.log("It is Wednesday.");
+        client.channels.get("303282388237025282").send("https://i.imgur.com/SPDD3R2.jpg");
     });
+    // var wednesday = schedule.scheduleJob("0 0 * * 3", function() {
+    //     client.channels.get("126786138596704256").send("https://i.imgur.com/SPDD3R2.jpg");
+    // });
 });
 
 client.on('message', msg => {
@@ -40,18 +41,24 @@ client.on('message', msg => {
     if (msg.content.toLowerCase().includes("!pilgrim")) {
         msg.channel.send(pilgrim());
     }
+    if(msg.content.toLowerCase().includes("!insult")) {
+        insultMe().then(result => {
+            msg.channel.send(result.insult);
+        });
+    }
 });
 
-//client.login(tokenTest);
-client.login(token);
+client.login(tokenTest);
+//client.login(token);
 
 
-/*  Name: roll
+/*  
+*   Name: roll
 *   Explicit command, roll a 20-sided die
 */
 function roll() {
     const roll = Math.floor(Math.random() * 21) + 1;
-    if (roll != 21){
+    if (roll != 21) {
         return roll;
     }
     else {
@@ -60,7 +67,8 @@ function roll() {
     }
 }
 
-/*  Name: muff
+/*  
+*   Name: muff
 *   Explicit command, return the Muffin face multi-emote
 */
 function muff() {
@@ -69,7 +77,8 @@ function muff() {
     return response;
 }
 
-/*  Name: ffum
+/*  
+*   Name: ffum
 *   Explicit command, return the inverted Muffin face multi-emote
 */
 function ffum() {
@@ -78,7 +87,8 @@ function ffum() {
     return response;
 }
 
-/*  Name: britbong
+/*  
+*   Name: britbong
 *   Explicit command, return the winged pilgrim
 */
 function pilgrim() {
@@ -86,7 +96,8 @@ function pilgrim() {
     return response;
 }
 
-/*  Name: help
+/*  
+*   Name: help
 *   Explicit command, return a list of all other available commands
 */
 function help() {
@@ -112,7 +123,8 @@ function help() {
     return embed;
 }
 
-/*  Name: kekCzech
+/*  
+*   Name: kekCzech
 *   Implicit command, called whenever someone says "kek"
 */
 function kekCzech(message) {
@@ -131,4 +143,21 @@ function kekCzech(message) {
             message.reply("http://i.imgur.com/MJ4QnXr.jpg");
         }
     }
+}
+
+/**
+ * Name: Insult Generator
+ * Provide a random insult
+ */
+function insultMe() {
+    // Query the Insult API
+    const options = {
+        method: "GET",
+        uri: "https://insult.mattbas.org/api/insult.json",
+        json: true
+    }
+    return request(options).then(body => {
+        console.log(body);
+        return body;
+    });
 }
