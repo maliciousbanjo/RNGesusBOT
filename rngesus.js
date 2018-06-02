@@ -32,8 +32,12 @@ client.on('message', msg => {
         }
     }
 
-    if (msg.content.toLowerCase().includes("kek")){
+    if (msg.content.toLowerCase().includes("kek")) {
         kekCzech(msg);
+    }
+
+    if (msg.content.toLowerCase().includes("!weakness")) {
+        msg.channel.send(weakness());
     }
 
     if (msg.content.toLowerCase().includes("!muff")) {
@@ -77,8 +81,8 @@ client.on('message', msg => {
     }
 });
 
-client.login(tokenTest);
-//client.login(token);
+//client.login(tokenTest);
+client.login(token);
 
 /**
  * Determine a random number in a certain range. If 0, return true.
@@ -94,7 +98,7 @@ function randomizerOdds(number) {
 }
 
 /**  
- *   Explicit command, roll a 20-sided die
+ * Explicit command, roll a 20-sided die
  */
 function roll() {
     const roll = Math.floor(Math.random() * 21) + 1;
@@ -107,7 +111,7 @@ function roll() {
 }
 
 /**  
- *   Explicit command, return the Muffin face multi-emote
+ * Explicit command, return the Muffin face multi-emote
  */
 function muff() {
     var response = "<:muff1:260651711381766144><:muff2:260651722114990082>\n" 
@@ -116,7 +120,7 @@ function muff() {
 }
 
 /**  
- *   Explicit command, return the inverted Muffin face multi-emote
+ * Explicit command, return the inverted Muffin face multi-emote
  */
 function ffum() {
     var response = "<:muff2:260651722114990082><:muff1:260651711381766144>\n"
@@ -125,15 +129,23 @@ function ffum() {
 }
 
 /**  
- *   Explicit command, return the winged pilgrim
+ * Explicit command, return the winged pilgrim
  */
 function pilgrim() {
     var response = "<:wingL:347944440272519169><:pilgrim:347944396127469571><:wingR:347944450116288513>";
     return response;
 }
 
+/**
+ * Explicit command, return the Monster Hunter World weakness chart
+ */
+function weakness() {
+    var response = "https://monsterhunterworld.wiki.fextralife.com/file/Monster-Hunter-World/mhw_monster_weakness_chart.png";
+    return response;
+}
+
 /**  
- *   Explicit command, return a list of all other available commands
+ * Explicit command, return a list of all other available commands
  */
 function help() {
     var embed = {embed: {
@@ -150,7 +162,8 @@ function help() {
             value: "!roll - Roll a 20-sided die\n" +
             "!muff - Muffin face multi-emote\n" +
             "!ffum - Inverted Muffin face multi-emote\n" + 
-            "!pilgrim - The winged pilgrim himself"
+            "!pilgrim - The winged pilgrim himself\n" +
+            "!weakness - Display the MHW Weakness Chart"
           },
         ],
       }
@@ -159,7 +172,7 @@ function help() {
 }
 
 /**  
- *   Implicit command, called whenever someone says "kek"
+ * Implicit command, called whenever someone says "kek"
  */
 function kekCzech(message) {
     var chance = Math.floor(Math.random() * 20); // Golden kek
