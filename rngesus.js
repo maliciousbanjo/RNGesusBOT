@@ -67,8 +67,8 @@ client.on('message', msg => {
     }
 });
 
-client.login(tokenTest);
-//client.login(token);
+//client.login(tokenTest);
+client.login(token);
 
 /**
  * Determine a random number in a certain range. If 0, return true.
@@ -161,7 +161,7 @@ function help() {
  * Implicit command, called whenever someone says "kek"
  */
 function kekCzech(message) {
-    var chance = Math.floor(Math.random() * 2); // Golden kek
+    var chance = Math.floor(Math.random() * 20); // Golden kek
     var goldenKek = false;
     if (chance == 0) {
         goldenKek = true;
