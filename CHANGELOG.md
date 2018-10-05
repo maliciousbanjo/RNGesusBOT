@@ -1,9 +1,11 @@
-# 
-RNGesusBot Change Log
+# RNGesusBot Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.4.0] - Current
+#A# [1.5.0] - Current
+- Spooky.
+
+## [1.4.0] - Released
 - MHW Weakness Chart
 
 ## [1.3.0] - Released

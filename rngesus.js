@@ -2,6 +2,7 @@ require('dotenv').config();
 var request = require('request-promise');
 var schedule = require('node-schedule');
 const Discord = require('discord.js');
+const spooky = require('./spook.json');
 
 const client = new Discord.Client();
 const tokenTest = process.env.TESTING;
@@ -10,26 +11,11 @@ const token = process.env.RNGESUS;
 client.on('ready', () => {
     console.log("Logged in as " + client.user.tag + "!");
     client.user.setActivity("God | !help");
-
-    // Test Wednesday
-    var wednesday = schedule.scheduleJob("25 8 * * *", function() {
-        console.log("It is Wednesday.");
-        client.channels.get("303282388237025282").send("https://i.imgur.com/SPDD3R2.jpg");
-    });
-    // var wednesday = schedule.scheduleJob("0 0 * * 3", function() {
-    //     client.channels.get("126786138596704256").send("https://i.imgur.com/SPDD3R2.jpg");
-    // });
 });
 
 client.on('message', msg => {
     if (msg.content.toLowerCase().includes("!roll")) {
-        if (randomizerOdds(30)) {
-            insultMe().then(result => {
-                msg.channel.send(result);
-            });
-        } else {
-            msg.reply(roll());
-        }
+        msg.reply(roll());
     }
 
     if (msg.content.toLowerCase().includes("kek")) {
@@ -81,8 +67,8 @@ client.on('message', msg => {
     }
 });
 
-//client.login(tokenTest);
-client.login(token);
+client.login(tokenTest);
+//client.login(token);
 
 /**
  * Determine a random number in a certain range. If 0, return true.
@@ -114,7 +100,7 @@ function roll() {
  * Explicit command, return the Muffin face multi-emote
  */
 function muff() {
-    var response = "<:muff1:260651711381766144><:muff2:260651722114990082>\n" 
+    var response = "<:muff1:260651711381766144><:muff2:260651722114990082>\n"
         + "<:muff3:260651732382646273><:muff4:260651744927809536>";
     return response;
 }
@@ -175,13 +161,22 @@ function help() {
  * Implicit command, called whenever someone says "kek"
  */
 function kekCzech(message) {
-    var chance = Math.floor(Math.random() * 20); // Golden kek
+    var chance = Math.floor(Math.random() * 2); // Golden kek
     var goldenKek = false;
     if (chance == 0) {
         goldenKek = true;
         console.log(message.author.username + " has received the Golden Kek");
-        message.reply("http://i.imgur.com/Qvpx2KK.png");
-
+        // message.reply("http://i.imgur.com/Qvpx2KK.png"); // Standard Kek
+        var currentDate = JSON.stringify(new Date());
+        if (currentDate <= spooky.spookyDates.phase1) {
+            message.reply(spooky.spooky.phase1);
+        } else if (currentDate > spooky.spookyDates.phase1 && currentDate <= spooky.spookyDates.phase2) {
+            message.reply(spooky.spooky.phase2);
+        } else if (currentDate > spooky.spookyDates.phase2 && currentDate <= spooky.spookyDates.phase3) {
+            message.reply(spooky.spooky.phase3);
+        } else if (currentDate > spooky.spookyDates.phase3 && currentDate <= spooky.spookyDates.phase4) {
+            message.reply(spooky.spooky.phase4);
+        }
     }
     if (!(goldenKek)) {
         chance = Math.floor(Math.random() * 250); // Cosmic kek
