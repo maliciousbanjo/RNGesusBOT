@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-#A# [1.5.0] - Current
+## [1.5.0] - Current
 - Spooky.
 
 ## [1.4.0] - Released
