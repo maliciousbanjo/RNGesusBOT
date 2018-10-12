@@ -167,7 +167,8 @@ function kekCzech(message) {
         goldenKek = true;
         console.log(message.author.username + " has received the Golden Kek");
         // message.reply("http://i.imgur.com/Qvpx2KK.png"); // Standard Kek
-        var currentDate = JSON.stringify(new Date());
+        var dirtyDate = JSON.stringify(new Date());
+        var currentDate = dirtyDate.substr(1, dirtyDate.length - 1);
         if (currentDate < spooky.spookyDates.phase1) {
             message.reply(spooky.spooky.phase1);
         } else if (currentDate >= spooky.spookyDates.phase1 && currentDate < spooky.spookyDates.phase2) {
