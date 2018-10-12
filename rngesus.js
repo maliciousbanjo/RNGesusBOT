@@ -168,13 +168,13 @@ function kekCzech(message) {
         console.log(message.author.username + " has received the Golden Kek");
         // message.reply("http://i.imgur.com/Qvpx2KK.png"); // Standard Kek
         var currentDate = JSON.stringify(new Date());
-        if (currentDate <= spooky.spookyDates.phase1) {
+        if (currentDate < spooky.spookyDates.phase1) {
             message.reply(spooky.spooky.phase1);
-        } else if (currentDate > spooky.spookyDates.phase1 && currentDate <= spooky.spookyDates.phase2) {
+        } else if (currentDate >= spooky.spookyDates.phase1 && currentDate < spooky.spookyDates.phase2) {
             message.reply(spooky.spooky.phase2);
-        } else if (currentDate > spooky.spookyDates.phase2 && currentDate <= spooky.spookyDates.phase3) {
+        } else if (currentDate >= spooky.spookyDates.phase2 && currentDate < spooky.spookyDates.phase3) {
             message.reply(spooky.spooky.phase3);
-        } else if (currentDate > spooky.spookyDates.phase3 && currentDate <= spooky.spookyDates.phase4) {
+        } else if (currentDate >= spooky.spookyDates.phase3 && currentDate < spooky.spookyDates.phase4) {
             message.reply(spooky.spooky.phase4);
         }
     }
