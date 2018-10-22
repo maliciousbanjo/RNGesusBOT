@@ -1,6 +1,5 @@
 require('dotenv').config();
 var request = require('request-promise');
-var schedule = require('node-schedule');
 const Discord = require('discord.js');
 const spooky = require('./spook.json');
 
@@ -10,7 +9,7 @@ const token = process.env.RNGESUS;
 
 client.on('ready', () => {
     console.log("Logged in as " + client.user.tag + "!");
-    client.user.setActivity("God | !help");
+    client.user.setActivity("Ģ̷̨ơ̴͝d̴ | !help");
 });
 
 client.on('message', msg => {
@@ -91,8 +90,9 @@ function roll() {
     if (roll != 21) {
         return roll;
     } else {
-        console.log("Someone has fucked off.");
-        return "Go fuck yourself.";
+        console.log("All hail the golden spooky");
+        //var random = items[Math.floor(Math.random()*items.length)]
+        return spooky.spookySass.phase3[Math.floor(Math.random()*spooky.spookySass.phase3.length)];
     }
 }
 
