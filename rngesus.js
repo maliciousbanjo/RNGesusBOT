@@ -64,10 +64,14 @@ client.on('message', msg => {
             msg.channel.send(result);
         });
     }
+
+    if(msg.content.toLowerCase().includes("!test")) {
+        msg.reply(test());
+    }
 });
 
-//client.login(tokenTest);
-client.login(token);
+client.login(tokenTest);
+//client.login(token);
 
 /**
  * Determine a random number in a certain range. If 0, return true.
@@ -80,6 +84,12 @@ function randomizerOdds(number) {
     } else {
         return false;
     }
+}
+
+function test() {
+    console.log("All hail the golden spooky");
+    //var random = items[Math.floor(Math.random()*items.length)]
+    return spooky.spookySass.phase3[Math.floor(Math.random()*spooky.spookySass.phase3.length)];
 }
 
 /**  
