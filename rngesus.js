@@ -73,7 +73,6 @@ client.on('message', msg => {
 
     if(msg.content.toLowerCase().includes("!test")) {
         msg.reply(test());
-        //msg.reply("", {file: new Discord.Attachment("./img/spooky_kek_s4.png", "p4.png")});
     }
 });
 
@@ -104,9 +103,6 @@ function updatePhase() {
 
 function test() {
     console.log("All hail the golden spooky");
-    // const statement =  spooky.spookySass.phase4[Math.floor(Math.random()*spooky.spookySass.phase4.length)];
-    // const emote = spooky.muffMotes[Math.floor(Math.random()*spooky.muffMotes.length)]
-    // return diacrit(statement) + " " + emote;
 }
 
 /**  
@@ -193,7 +189,7 @@ function help() {
  * Implicit command, called whenever someone says "kek"
  */
 function kekCzech(message) {
-    var chance = Math.floor(Math.random() * 2); // Golden kek
+    var chance = Math.floor(Math.random() * 20); // Golden kek
     var goldenKek = false;
     if (chance == 0) {
         goldenKek = true;
