@@ -1,6 +1,6 @@
 {
   "name": "rngesusbot",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "description": "A bot to interact with the Discord API for use on my server.",
   "main": "rngesus.js",
   "scripts": {

@@ -2,23 +2,25 @@ module.exports = (client, message) => {
     // Ignore bots
     if (message.author.bot) return;
 
-    if (!message.content.includes(client.config.prefix)) return;
-
-    // Find command and args, if applicable
+    //if (!message.content.includes(client.config.prefix)) return;
+        
+    // COMMAND NO ARGS
+    if (message.content.includes(client.config.prefix)) {
+        // Able to run the command at any location in the string
+        const command = message.content.substr(message.content.indexOf(client.config.prefix)+1).split(/ +/g)[0];
     
-    // This works if no argument
-    //const args = message.content.slice(message.content.indexOf(client.config.prefix) + 1).trim().split(/ + /g);
+        // Grab the command data from the client.commands Enmap
+        const cmd = client.commands.get(command);
 
-    // this works with arguments but the command must be the first word
-    const args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
-    const command = args.shift().toLowerCase();
+        if (cmd) {
+            cmd.run(client, message);
+            return;
+        }
+    }
 
-    // Grab the command data from the client.commands Enmap
-    const cmd = client.commands.get(command);
-
-    // If no command, do nothing
-    if (!cmd) return;
-
-    // Run the command
-    cmd.run(client, message, args);
+    // KEK CHECK
+    if (message.content.toLowerCase().includes("kek")) {
+        const kek = client.commands.get("kek");
+        kek.run(client, message);
+    }
 };

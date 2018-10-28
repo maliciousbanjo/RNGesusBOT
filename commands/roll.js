@@ -1,4 +1,4 @@
-exports.run = (client, message, args) => {
+exports.run = (client, message) => {
     const roll = Math.floor(Math.random() * 21) + 1;
     if (roll != 21) {
         message.reply(roll);
