@@ -15,7 +15,12 @@ client.on('ready', () => {
     console.log("Logged in as " + client.user.tag + "!");
     data = JSON.parse(fs.readFileSync("./spook.json"));
     finalPhase = data.phase4;
-    client.user.setActivity("Ģ̷̨ơ̴͝d̴ | !help");
+    if (finalPhase != true){
+        client.user.setActivity("Ģ̷̨ơ̴͝d̴ | !help");
+    }
+    else {
+        client.user.setActivity("Ń̘̩̻̩͓̮o̯͚͍̬͈̻ͯͅT͉̀Ḥ̟̙̗̩͈̈́ͥͨͧͯ̐̅͞i̦̥̣̞̋ͭͬ̀n̘ͪ̄̿̿͞G̶̱͈͆ͭ͂ͯ̃̈̈ ̼̏̊c̷͉͍̜͓̮̮̙A̳̮̺͒͆ͫ̀͐Ņ̥͍͚̹̠͊̉ͥͣ ͚̫s̐҉̠͖̻̩̣̮̗a͈̰͈͚̼ͮ̎̃̈́v̵̳̲͔ͪ̂̔E̝̟̩͕̤̩̅̋ ̣ͧ̍̃́Y̼̩oͭ҉̤̹U͖̪͔̜̣̙̻͂ͦ̆͘");
+    }
 });
 
 client.on('message', msg => {
@@ -76,8 +81,8 @@ client.on('message', msg => {
     }
 });
 
-client.login(tokenTest);
-//client.login(token);
+//client.login(tokenTest);
+client.login(token);
 
 /**
  * Determine a random number in a certain range. If 0, return true.
