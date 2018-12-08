@@ -4,7 +4,8 @@ exports.run = (client, message) => {
     if (chance == 0) {
         goldenKek = true;
         console.log(`${message.author.username} has received the Golden Kek`);
-        message.reply("http://i.imgur.com/Qvpx2KK.png"); // Golden Kek
+        // message.reply("http://i.imgur.com/Qvpx2KK.png"); // Golden Kek
+        message.reply("https://gfycat.com/JollyUglyApe"); // Christmas Kek
     }
     if (!goldenKek) {
         chance = Math.floor(Math.random() * client.config.cosmicRate); // Cosmic kek
