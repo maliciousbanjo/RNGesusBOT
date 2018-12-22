@@ -3,7 +3,13 @@ module.exports = (client, message) => {
     if (message.author.bot) return;
 
     //if (!message.content.includes(client.config.prefix)) return;
-        
+     
+    
+    // COMMAND WITH ARGS
+    // if (message.content.indexOf(client.config.prefix) === 0) {
+    //     console.log("Command with args");
+    // }
+
     // COMMAND NO ARGS
     if (message.content.includes(client.config.prefix)) {
         // Able to run the command at any location in the string

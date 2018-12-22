@@ -37,7 +37,7 @@ client.login(config.testing); // testing
 // Event Handlers
 client.on('ready', () => {
     console.log('Logged in as ' + client.user.tag);
-    client.user.setActivity('God | !info');6
+    client.user.setActivity('God | !info');
 });
 
 client.on('error', () => {

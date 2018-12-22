@@ -1,5 +1,6 @@
 exports.run = (client, message, args) => {
-    const embed = {embed: {
+    const embed = {
+      embed: {
         color: 3447003,
         author: {
           name: client.user.username,
