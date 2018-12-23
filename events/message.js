@@ -1,14 +1,21 @@
 module.exports = (client, message) => {
     // Ignore bots
     if (message.author.bot) return;
-
-    //if (!message.content.includes(client.config.prefix)) return;
-     
     
     // COMMAND WITH ARGS
-    // if (message.content.indexOf(client.config.prefix) === 0) {
-    //     console.log("Command with args");
-    // }
+    if (message.content.indexOf(client.config.prefix) === 0) {
+        console.log("Command with args");
+
+        const args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
+        const command = args.shift().toLowerCase();
+
+        const cmd = client.commands.get(command);
+
+        if (cmd) {
+            cmd.run(client, message, args);
+            return;
+        }
+    }
 
     // COMMAND NO ARGS
     if (message.content.includes(client.config.prefix)) {

@@ -1,45 +1,23 @@
+const Discord = require('discord.js');
 exports.run = (client, message, args) => {
-/**
- * No arguments yet
- * Return the user info of the command invoker
- * Eventually will receive a user object to return anyone's info
- */
-    // client.users.forEach((user, id) => {
-    //     if (!user.bot) {
-    //         message.channel.send(user.toString());
-    //     }
-    // });
-    roles = message.member.roles.filter((role) => {
-        if (role.name != '@everyone') {
-            return role.name;
-        }
-    });
 
-    roles = Array.from(message.member.roles.values()).filter((role) => {
-        if (role.name != '@everyone') {
-            return role.name;
-        }
-    });
+    //let userId = args[0].match(/\d+/g)[0]; // Process UserID out of args array
+    const numMatch = new RegExp(/\d+/);
+    if(numMatch.test(args[0])) {
+        const userId = numMatch.exec(args[0])[0];
 
-    console.log(roles);
+        // Find user ID
+        const targetUser = message.guild.members.find(user => user.id === userId);
+        const richEmbed = new Discord.RichEmbed()
+            .setColor(3447003)
+            .setAuthor(targetUser.displayName, targetUser.user.avatarURL)
+            .setThumbnail(targetUser.user.avatarURL)
+            .addField("Role", targetUser.highestRole.name)
+            .addField("User Since", new Date(targetUser.user.createdAt).toDateString())
+            .addField("Joined Server", new Date(targetUser.joinedAt).toDateString());
 
-    const embed = {
-        embed: {
-            color: 3447003,
-            author: {
-                name: message.author.username,
-                icon_url: message.author.avatarURL
-            },
-            fields: [{
-                name: "Roles",
-                value: "Kek"
-            }]
-        }
-    };
-
-    message.channel.send(embed);
-
-    // client.emojis.forEach((emoji, id) => {
-    //     message.channel.send(id + " " + emoji)
-    // });
+        message.channel.send(richEmbed);
+    } else {
+        message.channel.send("Sorry, I couldn't find that user");
+    }
 }
