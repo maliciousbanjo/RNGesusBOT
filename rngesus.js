@@ -24,14 +24,15 @@ fs.readdir('./commands/', (err, files) => {
         if (!file.endsWith('.js')) return;
         let props = require(`./commands/${file}`);
         let commandName = file.split('.')[0];
-        console.log(`Attempting to load command ${commandName}`);
+        console.log(`Loading command ${commandName}...`);
         client.commands.set(commandName, props);
     });
 });
 
+
 // LOGIN
-client.login(config.production); // production
-//client.login(config.testing); // testing
+//client.login(config.production); // production
+client.login(config.testing); // testing
 
 
 // Event Handlers
@@ -41,5 +42,5 @@ client.on('ready', () => {
 });
 
 client.on('error', () => {
-    console.log('Lost connection')
+    console.error('Internet Connection Lost')
 });
