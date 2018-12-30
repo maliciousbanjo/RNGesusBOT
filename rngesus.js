@@ -42,5 +42,5 @@ client.on('ready', () => {
 });
 
 client.on('error', () => {
-    console.log('Lost connection')
+    console.error('Internet Connection Lost')
 });

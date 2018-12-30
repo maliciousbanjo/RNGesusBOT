@@ -3,16 +3,17 @@ module.exports = (client, message) => {
     // Ignore bots
     if (message.author.bot) return;
 
-    // Process the message, parse out relevant metrics
+    // USER MESSAGE COUNT
     const MongoClient = mongo.MongoClient;
-    console.log("Connecting to MongoDB...");
-    MongoClient.connect(client.config.databaseURL, {useNewUrlParser: true}, (error, client) => {
-        if (error) throw error;
-        console.log("Connected to MongoDB")
-        const db = client.db("test");
+    MongoClient.connect(client.config.databaseURL, {useNewUrlParser: true}, (error, mongoClient) => {
+        if (error) {
+            console.error(error);
+            return;
+        }
+        const db = mongoClient.db(client.config.database);
 
         // Update the user's information. Will create new Document if it doesn't already exist
-        db.collection("users").updateOne(
+        db.collection('users').updateOne(
             // Discord User ID
             { discord_id: message.author.id },
             {
@@ -20,30 +21,31 @@ module.exports = (client, message) => {
                 $set: {
                     username: message.author.username,
                 },
-                // Increment message count by 1. If field doesn't exist will instantiate at 1.
+                // Increment message count by 1. If field doesn't exist it will instantiate at 1.
                 $inc: {
                     messages: 1
                 }
             },
             { upsert: true },
             (error, result) => {
-                if (error) throw error;
-                console.log("User Document Updated");
-                client.close();
+                if (error) {
+                    console.error(error);
+                    return;
+                }
+                mongoClient.close();
             }
         );
     });
     
     // COMMAND WITH ARGS
     if (message.content.indexOf(client.config.prefix) === 0) {
-        console.log('Command with args');
-
         const args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
         const command = args.shift().toLowerCase();
 
         const cmd = client.commands.get(command);
 
         if (cmd) {
+            console.log(`Running ${command}`);
             cmd.run(client, message, args);
             return;
         }
@@ -58,6 +60,7 @@ module.exports = (client, message) => {
         const cmd = client.commands.get(command);
 
         if (cmd) {
+            console.log(`Running ${command}`);
             cmd.run(client, message);
             return;
         }
