@@ -9,6 +9,7 @@ exports.run = (client, message, args) => {
       .setDescription('Chaos is order, all hail the random.')
       .addField('Commands', '!roll - Roll a 20-sided die\n' +
         '!muff - Muffin face multi-emote\n' +
-        '!ffum - Inverted Muffin face multi-emote\n');
+        '!ffum - Inverted Muffin face multi-emote\n' + 
+        '!user <@username> - User info. Must @ tag a valid username');
     message.channel.send(richEmbed);
 }
