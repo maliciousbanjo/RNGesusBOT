@@ -2,12 +2,15 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.1.0] - Current
+## [2.2.0] - Current
+- Emote tracking
+
+## [2.1.0] - Released
 - User Stats
    - Message count
    - Golden and Cosmic Kek count
 
-## [2.0.0] - Current
+## [2.0.0] - Released
 - Complete ES6 refactor
    - It's so *clean!*
 
