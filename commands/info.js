@@ -10,6 +10,7 @@ exports.run = (client, message, args) => {
       .addField('Commands', '!roll - Roll a 20-sided die\n' +
         '!muff - Muffin face multi-emote\n' +
         '!ffum - Inverted Muffin face multi-emote\n' + 
-        '!user <@username> - User info. Must @ tag a valid username');
+        '!user <@username> - User info. Must @ tag a valid username\n' +
+        '!server - Server info');
     message.channel.send(richEmbed);
 }

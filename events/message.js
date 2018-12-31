@@ -1,10 +1,9 @@
-const mongo = require('mongodb');
 module.exports = (client, message) => {
     // Ignore bots
     if (message.author.bot) return;
 
     // USER MESSAGE COUNT
-    updateMessageCount(message);
+    updateMessage(message);
     
     // SCAN MESSAGE FOR CUSTOM EMOTES
     if (message.content.includes('<:')) {
@@ -13,7 +12,7 @@ module.exports = (client, message) => {
         if (emote !== null) {
             // Emoji exists in this server
             console.log(`Updating emote ${emote.name}`);
-            updateEmoteCount(emote);
+            updateEmote(emote, message);
         }
     }
 
@@ -53,42 +52,19 @@ module.exports = (client, message) => {
     }
 
     /**
-     * Update the global emoji usage
-     * @param {Discord.Emoji} emote The emoji being updated
+     * Update the server emote usage
+     * @param {Discord.Emoji} emote  The emote being updated
      */
-    function updateEmoteCount(emote) {
-        const MongoClient = mongo.MongoClient;
-        MongoClient.connect(client.config.databaseURL, {useNewUrlParser: true}, (error, mongoClient) => {
-            if (error) {
-                console.error(error);
-                return;
-            }
-            const db = mongoClient.db(client.config.database);
-    
-            // Update the user's information. Will create new Document if it doesn't already exist
-            db.collection('emotes').updateOne(
-                // Discord User ID
-                { name: emote.name },
-                {
-                    // Set username and avatar photo
-                    $set: {
-                        emote_id: emote.id,
-                        url: emote.url
-                    },
-                    // Increment message count by 1. If field doesn't exist it will instantiate at 1.
-                    $inc: {
-                        count: 1
-                    }
-                },
-                { upsert: true },
-                (error, result) => {
-                    if (error) {
-                        console.error(error);
-                        return;
-                    }
-                    mongoClient.close();
-                }
-            );
+    function updateEmote(emote) {
+        const query = `
+        INSERT INTO EMOTE (name, server_id, emote_id, image_url, count)
+        VALUES ("${emote.name}", "${message.guild.id}", "${emote.id}", "${emote.url}", 1)
+        ON DUPLICATE KEY UPDATE
+            count = count + 1
+        `;
+        client.sqlCon.query(query, (error, result) => {
+            if (error) throw error;
+            console.log(`${result.affectedRows} EMOTE record(s) updated`);
         });
     }
 
@@ -96,38 +72,16 @@ module.exports = (client, message) => {
      * Update the message counter of a message's author
      * @param {Discord.Message} message Message being processed for information
      */
-    function updateMessageCount(message) {
-        const MongoClient = mongo.MongoClient;
-        MongoClient.connect(client.config.databaseURL, {useNewUrlParser: true}, (error, mongoClient) => {
-            if (error) {
-                console.error(error);
-                return;
-            }
-            const db = mongoClient.db(client.config.database);
-    
-            // Update the user's information. Will create new Document if it doesn't already exist
-            db.collection('users').updateOne(
-                // Discord User ID
-                { discord_id: message.author.id },
-                {
-                    // Set username and avatar photo
-                    $set: {
-                        username: message.author.username,
-                    },
-                    // Increment message count by 1. If field doesn't exist it will instantiate at 1.
-                    $inc: {
-                        messages: 1
-                    }
-                },
-                { upsert: true },
-                (error, result) => {
-                    if (error) {
-                        console.error(error);
-                        return;
-                    }
-                    mongoClient.close();
-                }
-            );
+    function updateMessage(message) {
+        const query = `
+        INSERT INTO USER (discord_id, username, messages, golden_kek, cosmic_kek)
+        VALUES ("${message.author.id}", "${message.author.username}", 1, 0, 0)
+        ON DUPLICATE KEY UPDATE
+            messages = messages + 1
+        `;
+        client.sqlCon.query(query, (error, result) => {
+            if (error) throw error;
+            console.log(`${result.affectedRows} USER record(s) updated`);
         });
     }
 };

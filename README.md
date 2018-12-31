@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.2.0] - Current
 - Emote tracking
+- Server stats
 
 ## [2.1.0] - Released
 - User Stats
