@@ -8,7 +8,7 @@ exports.run = (client, message, args) => {
         // Fetch the Discord user from MySQL
         const query = `
             SELECT * FROM USER
-            WHERE discord_id = "${message.author.id}"
+            WHERE discord_id = "${userId}"
         `;
         client.sqlCon.query(query, (error, result, fields) => {
             if (error) throw error;
