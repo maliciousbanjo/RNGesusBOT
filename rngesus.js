@@ -13,7 +13,8 @@ client.sqlCon = mysql.createConnection({
     host: config.dbHost,
     user: config.dbUsername,
     password: config.dbPassword,
-    database: config.database
+    database: config.database,
+    multipleStatements: true
 });
 
 client.sqlCon.connect((error) => {
