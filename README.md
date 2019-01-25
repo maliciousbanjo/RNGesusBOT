@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.3.0] - Released
+## [2.3.0] - Current
 - New users are automatically added to the "Disciple" role
 - Testing feature (for me, and only me)
 
