@@ -28,7 +28,7 @@ exports.run = (client, message) => {
         `;
         client.sqlCon.query(userQuery, (error, result) => {
             if (error) throw error;
-            console.log(`${result.affectedRows} USER record(s) updated`);
+            // console.log(`${result.affectedRows} USER record(s) updated`);
         });
 
         let serverQuery;
@@ -41,7 +41,7 @@ exports.run = (client, message) => {
             `;
             client.sqlCon.query(serverQuery, (error, result) => {
                 if (error) throw error;
-                console.log(`${result.affectedRows} SERVER record(s) updated`);
+                // console.log(`${result.affectedRows} SERVER record(s) updated`);
             });
         } else { // cosmic_kek
             serverQuery = `
@@ -52,7 +52,7 @@ exports.run = (client, message) => {
             `;
             client.sqlCon.query(serverQuery, (error, result) => {
                 if (error) throw error;
-                console.log(`${result.affectedRows} SERVER record(s) updated`);
+                // console.log(`${result.affectedRows} SERVER record(s) updated`);
             });
         }
     }
