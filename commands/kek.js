@@ -1,4 +1,3 @@
-const mongo = require('mongodb');
 exports.run = (client, message) => {
     let chance = Math.floor(Math.random() * client.config.goldenRate); // Golden kek
     let goldenKek = false;
@@ -17,39 +16,44 @@ exports.run = (client, message) => {
         }
     }
 
-    // TODO: Update the Server collection as well, for "Most Recent" kek holder
     /**
-     * Update the user's Golden/Cosmic kek count in MongoDB
-     * @param {String} kekType The type of kek to update, Golden or Cosmic
+     * Update the user's kekcount and the most recent kek in MySQL
+     * @param {String} kekType 
      */
     function updateKek(kekType) {
-        const MongoClient = mongo.MongoClient;
-        MongoClient.connect(client.config.databaseURL, {useNewUrlParser: true}, (error, mongoClient) => {
-            if (error) {
-                console.error(error);
-                return;
-            }
-            const db = mongoClient.db(client.config.database);
-
-            // Update the user's kek count
-            db.collection('users').updateOne(
-                // Discord User ID
-                { discord_id: message.author.id },
-                {
-                    // Increment kek count by one. If field doesn't exist it will instantiate at 1.
-                    $inc: {
-                        [kekType]: 1
-                    }
-                },
-                { upsert: true },
-                (error, result) => {
-                    if (error) {
-                        console.error(error);
-                        return;
-                    }
-                    mongoClient.close();
-                }
-            );
+        const userQuery = `
+            UPDATE USER
+                SET ${[kekType]} = ${[kekType]} + 1
+            WHERE (discord_id = "${message.author.id}")
+        `;
+        client.sqlCon.query(userQuery, (error, result) => {
+            if (error) throw error;
+            // console.log(`${result.affectedRows} USER record(s) updated`);
         });
+
+        let serverQuery;
+        if (kekType === "golden_kek") {
+            serverQuery = `
+                UPDATE SERVER
+                SET
+                    last_golden_user = "${message.author.id}",
+                    golden_timestamp = ${message.createdTimestamp}
+            `;
+            client.sqlCon.query(serverQuery, (error, result) => {
+                if (error) throw error;
+                // console.log(`${result.affectedRows} SERVER record(s) updated`);
+            });
+        } else { // cosmic_kek
+            serverQuery = `
+                UPDATE SERVER
+                SET
+                    last_cosmic_user = "${message.author.id}",
+                    cosmic_timestamp = ${message.createdTimestamp}
+            `;
+            client.sqlCon.query(serverQuery, (error, result) => {
+                if (error) throw error;
+                // console.log(`${result.affectedRows} SERVER record(s) updated`);
+            });
+        }
     }
 }
