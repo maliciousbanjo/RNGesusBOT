@@ -11,6 +11,7 @@ exports.run = (client, message, args) => {
         '!muff - Muffin face multi-emote\n' +
         '!ffum - Inverted Muffin face multi-emote\n' + 
         '!user <@username> - User info. Must @ tag a valid username\n' +
-        '!server - Server info');
+        '!server - Server info\n' +
+        '!emotes - Top 5 Emotes');
     message.channel.send(richEmbed);
 }

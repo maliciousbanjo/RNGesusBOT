@@ -2,7 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.3.0] - Current
+## [2.4.0] - Current
+- Emote leaderboards
+
+## [2.3.0] - Released
 - New users are automatically added to the "Disciple" role
 - Testing feature (for me, and only me)
 
