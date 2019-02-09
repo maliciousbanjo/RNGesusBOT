@@ -47,13 +47,13 @@ exports.run = (client, message) => {
 
         if (goldenUser !== null) {
             const timestamp = new Date(result[0][0].golden_timestamp);
-            richEmbed.addField('Last Golden Kek', `${goldenUser} on ${timestamp.toDateString()}, ${timestamp.toLocaleTimeString('en-US')}`, true)
-            .addField('Top Golden Kekker', `${maxGolden}: ${result[2][0].golden_max}`, true);
+            richEmbed.addField('Last Golden Kek', `${goldenUser} on ${timestamp.toDateString()}, ${timestamp.toLocaleTimeString('en-US')}`)
+            .addField('Top Golden Kekker', `${maxGolden}: ${result[2][0].golden_max}`);
         }
         if (cosmicUser !== null) {
             const timestamp = new Date(result[0][0].cosmic_timestamp);
-            richEmbed.addField('Last Cosmic Kek', `${cosmicUser} on ${timestamp.toDateString()}, ${timestamp.toLocaleTimeString('en-US')}`, true)
-            .addField('Top Cosmic Kekker', `${maxCosmic}: ${result[3][0].cosmic_max}`, true);
+            richEmbed.addField('Last Cosmic Kek', `${cosmicUser} on ${timestamp.toDateString()}, ${timestamp.toLocaleTimeString('en-US')}`)
+            .addField('Top Cosmic Kekker', `${maxCosmic}: ${result[3][0].cosmic_max}`);
         }
 
         message.channel.send(richEmbed);
