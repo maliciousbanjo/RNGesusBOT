@@ -2,7 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.4.0] - Current
+## [2.5.0] - Current
+- Deprecated updateKek and abstracted into separated methods
+- New kek added :eyes:
+
+## [2.4.0] - Released
 - Emote leaderboards
 
 ## [2.3.0] - Released
