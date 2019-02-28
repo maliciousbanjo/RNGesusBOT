@@ -13,7 +13,7 @@ exports.run = (client, message) => {
         chance = Math.floor(Math.random() * client.config.plateRate); // Platelet kek
         if (chance == 0) {
             console.log(`${message.author.username} has had their kek stolen by a platelet!`);
-            message.reply("https://imgur.com/izO82MU.png");
+            message.reply("https://i.imgur.com/izO82MU.png");
             plateletKekUpdate();
             return;
         }
@@ -134,16 +134,17 @@ exports.run = (client, message) => {
         client.sqlCon.query(query, (error, result, fields) => {
             if (error) throw error;
             if (result[0].golden_kek !== 0) {
+                const golden_kek_count = result[0].golden_kek;
                 // Update the USER table
                 const userQuery = `
                     UPDATE USER
                         SET golden_kek = golden_kek - 1
                     WHERE (discord_id = "${message.author.id}")
                 `;
-                client.sqlCon.query(userQuery, (error, result) => {
+                client.sqlCon.query(userQuery, (error, result, fields) => {
                     if (error) throw error;
-                    message.reply(`Your golden kek has been stolen by a platelet!
-                    Your Golden Kek count is now ${result[0].golden_kek}`)
+                    message.reply("Your golden kek has been stolen by a platelet!"+
+                    `\nYour Golden Kek count is now ${golden_kek_count}`)
                 });
             } else {
                 message.reply("Your golden kek has been stolen by a platelet!")
