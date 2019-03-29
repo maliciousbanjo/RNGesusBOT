@@ -2,7 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.5.1] - Current
+## [2.5.2]
+- Added a private command to see emote count
+
+## [2.5.1] - Released
 - Public debut of Platelet Kek
 - Bugfixes, operational changes to Platelet Kek
 
