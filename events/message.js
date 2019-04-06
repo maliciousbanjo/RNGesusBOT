@@ -1,9 +1,11 @@
 module.exports = (client, message) => {
-    // Ignore bots
+    // Ignore bots and testing channel
     if (message.author.bot) return;
 
     // USER MESSAGE COUNT
-    updateMessage(message);
+    if (message.channel.name != "bot_test") { // Test messages don't count
+        updateMessage(message);
+    }
     
     // SCAN MESSAGE FOR CUSTOM EMOTES
     if (message.content.includes('<:')) {

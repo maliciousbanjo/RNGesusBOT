@@ -12,26 +12,26 @@ exports.run = (client, message, args) => {
         `;
         client.sqlCon.query(query, (error, result, fields) => {
             if (error) throw error;
-                // Find user ID from Discord
-                const targetUser = message.guild.members.find(user => user.id === userId);
-                // Assemble the Embed
-                const richEmbed = new Discord.RichEmbed()
-                    .setColor(3447003)
-                    .setAuthor(targetUser.displayName, targetUser.user.avatarURL)
-                    .setThumbnail(targetUser.user.avatarURL)
-                    .addField('Role', targetUser.highestRole.name)
-                    .addField('User Since', new Date(targetUser.user.createdAt).toDateString())
-                    .addField('Joined Server', new Date(targetUser.joinedAt).toDateString())
-                    .addField('Messages', result[0].messages);
-                if (result[0].golden_kek !== 0) {
-                    richEmbed.addField('Golden Keks', result[0].golden_kek)
+            // Find user ID from Discord
+            const targetUser = message.guild.members.find(user => user.id === userId);
+            // Assemble the Embed
+            const richEmbed = new Discord.RichEmbed()
+                .setColor(3447003)
+                .setAuthor(targetUser.displayName, targetUser.user.avatarURL)
+                .setThumbnail(targetUser.user.avatarURL)
+                .addField('Role', targetUser.highestRole.name)
+                .addField('User Since', new Date(targetUser.user.createdAt).toDateString())
+                .addField('Joined Server', new Date(targetUser.joinedAt).toDateString())
+                .addField('Messages', result[0].messages);
+            if (result[0].golden_kek !== 0) {
+                richEmbed.addField('Golden Keks', result[0].golden_kek)
 
-                }
-                if (result[0].cosmic_kek !== 0) {
-                    richEmbed.addField('Cosmic Keks', result[0].cosmic_kek);
-                }
+            }
+            if (result[0].cosmic_kek !== 0) {
+                richEmbed.addField('Cosmic Keks', result[0].cosmic_kek);
+            }
 
-                message.channel.send(richEmbed);
+            message.channel.send(richEmbed);
         });
 
     } else {

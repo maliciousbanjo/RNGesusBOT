@@ -2,7 +2,21 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.3.0] - Current
+## [2.5.2]
+- Added a private command to see emote count
+
+## [2.5.1] - Released
+- Public debut of Platelet Kek
+- Bugfixes, operational changes to Platelet Kek
+
+## [2.5.0] - Released
+- Deprecated updateKek and abstracted into separated methods
+- New kek added :eyes:
+
+## [2.4.0] - Released
+- Emote leaderboards
+
+## [2.3.0] - Released
 - New users are automatically added to the "Disciple" role
 - Testing feature (for me, and only me)
 
