@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 exports.run = (client, message, args) => {
     const richEmbed = new Discord.RichEmbed()
-      .setColor(3447003)
+      .setColor('BLUE')
       .setAuthor(client.user.username, client.user.avatarURL)
       .setTitle('Click to View Repository')
       .setURL('https://github.com/maliciousbanjo/RNGesusBOT')

@@ -38,7 +38,7 @@ exports.run = (client, message) => {
         const maxCosmic = message.guild.members.find(user => user.id === result[3][0].discord_id);
         
         const richEmbed = new Discord.RichEmbed()
-        .setColor(3447003)
+        .setColor('BLUE')
         .setTitle(message.guild.name)
         .setThumbnail(message.guild.iconURL)
         .addField('Created', new Date(message.guild.createdAt).toDateString())

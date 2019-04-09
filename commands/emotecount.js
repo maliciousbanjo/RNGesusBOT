@@ -17,7 +17,7 @@ exports.run = (client, message) => {
             emoteString += `${client.emojis.find(emoji => emoji.name === element.name)} | ${element.count}\n`;
         });
         const richEmbed = new Discord.RichEmbed()
-        .setColor(3447003)
+        .setColor('BLUE')
         .addField('Emote Counts', emoteString);
         message.author.createDM()
         .then(channel => {
