@@ -7,7 +7,7 @@ exports.run = (client, message, quoteMessageId) => {
             const quoteEmbed = new Discord.RichEmbed()
                 .setColor('AQUA')
                 .setAuthor(targetUser.displayName, targetUser.user.avatarURL)
-                .setDescription(`*${quoteMessage.content}`)
+                .setDescription(`*${quoteMessage.content}*`)
                 .setTimestamp(quoteMessage.createdTimestamp);
             message.channel.send(quoteEmbed);
 
