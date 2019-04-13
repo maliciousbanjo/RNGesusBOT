@@ -14,5 +14,9 @@ exports.run = (client, message, quoteMessageId) => {
             // Delete bot command to look more natural
             message.delete()
                 .catch(console.error);
+        })
+        .catch((error) => {
+            console.error("Error fetching quote");
+            console.error(error);
         });
 }

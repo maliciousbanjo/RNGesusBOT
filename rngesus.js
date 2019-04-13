@@ -56,6 +56,6 @@ client.on('ready', () => {
     client.user.setActivity('God | !info');
 });
 
-client.on('error', () => {
+client.on('error', (error) => {
     console.error(error.message);
 });
