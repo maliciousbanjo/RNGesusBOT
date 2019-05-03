@@ -7,7 +7,6 @@ exports.run = (client, message) => {
         SELECT name, count
         FROM EMOTE
         ORDER BY count DESC
-        LIMIT 10;
     `;
 
     client.sqlCon.query(query, (error, result, fields) => {
