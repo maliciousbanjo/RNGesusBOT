@@ -2,7 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.5.2]
+## [2.6.0] - Current
+- Introducing quotes
+   - `!quote <message Id>` to quote a previous post
+   - For easier use, turn on Developer Mode to unlock "Copy ID" with a right click
+
+## [2.5.2] - Released
 - Added a private command to see emote count
 
 ## [2.5.1] - Released

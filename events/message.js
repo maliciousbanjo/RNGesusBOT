@@ -11,7 +11,6 @@ module.exports = (client, message) => {
     if (message.content.includes('<:')) {
         const emoteName = message.content.match(/\:(.*?)\:/)[1]; // Parse out emote
         const emote = client.emojis.find(emoji => emoji.name === emoteName);
-        const disciple = message.guild.roles.find(role => role.name === "Disciple");
         if (emote !== null) {
             // Emoji exists in this server
             console.log(`Updating emote ${emote.name}`);

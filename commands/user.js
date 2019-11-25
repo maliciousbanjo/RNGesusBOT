@@ -1,9 +1,9 @@
 const Discord = require('discord.js');
-exports.run = (client, message, args) => {
+exports.run = (client, message, userTag) => {
     const numMatch = new RegExp(/\d+/);
-    if(numMatch.test(args[0])) {
+    if(numMatch.test(userTag[0])) {
         // Process UserID out of args array
-        const userId = numMatch.exec(args[0])[0];
+        const userId = numMatch.exec(userTag[0])[0];
 
         // Fetch the Discord user from MySQL
         const query = `
@@ -16,7 +16,7 @@ exports.run = (client, message, args) => {
             const targetUser = message.guild.members.find(user => user.id === userId);
             // Assemble the Embed
             const richEmbed = new Discord.RichEmbed()
-                .setColor(3447003)
+                .setColor('BLUE')
                 .setAuthor(targetUser.displayName, targetUser.user.avatarURL)
                 .setThumbnail(targetUser.user.avatarURL)
                 .addField('Role', targetUser.highestRole.name)

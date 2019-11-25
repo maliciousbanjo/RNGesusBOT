@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const client = new Discord.Client();
+const client = new Discord.Client({autoReconnect:true});
 const Enmap = require('enmap');
 const fs = require('fs');
 const config = require('./config.json');
@@ -56,6 +56,6 @@ client.on('ready', () => {
     client.user.setActivity('God | !info');
 });
 
-client.on('error', () => {
-    console.error('Internet Connection Lost')
+client.on('error', (error) => {
+    console.error(error.message);
 });
