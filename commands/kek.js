@@ -1,7 +1,17 @@
 exports.run = (client, message) => {
+    // Increase kek count regardless of result
+    const query = `
+    UPDATE user
+        SET kek_count = kek_count + 1
+    WHERE (discord_id = "${message.author.id}")
+    `;
+    client.sqlCon.query(query, (error, result) => {
+        if (error) throw error;
+    });
+
     let chance = Math.floor(Math.random() * client.config.goldenRate); // Golden kek
     let goldenKek = false;
-    //let plateletKek = false;
+
     if (chance == 0) { // Golden kek acheived
         goldenKek = true;
         chance = Math.floor(Math.random() * client.config.plateRate); // Platelet kek
@@ -34,24 +44,13 @@ exports.run = (client, message) => {
      * Update the user's golden kek count and the most recent server kek in MySQL
      */
     function goldenKekUpdate() {
-        // Update the USER table
+        // Update the 'user' table
         const userQuery = `
-            UPDATE USER
-                SET golden_kek = golden_kek + 1
+            UPDATE user
+                SET golden_count = golden_count + 1
             WHERE (discord_id = "${message.author.id}")
         `;
         client.sqlCon.query(userQuery, (error, result) => {
-            if (error) throw error;
-        });
-
-        // Update the SERVER table
-        const serverQuery = `
-            UPDATE SERVER
-            SET
-                last_golden_user = "${message.author.id}",
-                golden_timestamp = ${message.createdTimestamp}
-        `;
-        client.sqlCon.query(serverQuery, (error, result) => {
             if (error) throw error;
         });
         return;
@@ -61,22 +60,13 @@ exports.run = (client, message) => {
      * Update the user's cosmic kek count and the most recent server kek in MySQL
      */
     function cosmicKekUpdate() {
-        // Update the USER table
+        // Update the 'user' table
         const userQuery = `
-            UPDATE USER
-                SET cosmic_kek = cosmic_kek + 1
+            UPDATE user
+                SET cosmic_count = cosmic_count + 1
             WHERE (discord_id = "${message.author.id}")
         `;
         client.sqlCon.query(userQuery, (error, result) => {
-            if (error) throw error;
-        });
-        const serverQuery = `
-            UPDATE SERVER
-            SET
-                last_cosmic_user = "${message.author.id}",
-                cosmic_timestamp = ${message.createdTimestamp}
-        `;
-        client.sqlCon.query(serverQuery, (error, result) => {
             if (error) throw error;
         });
         return;
@@ -88,17 +78,17 @@ exports.run = (client, message) => {
     function plateletKekUpdate() {
         // Query the user's kek count
         const query = `
-            SELECT golden_kek FROM USER
+            SELECT golden_count FROM user
             WHERE discord_id = "${message.author.id}"
         `;
         client.sqlCon.query(query, (error, result, fields) => {
             if (error) throw error;
-            if (result[0].golden_kek !== 0) {
-                const golden_kek_count = result[0].golden_kek;
-                // Update the USER table
+            if (result[0].golden_count !== 0) {
+                const golden_kek_count = result[0].golden_count;
+                // Update the 'user' table
                 const userQuery = `
-                    UPDATE USER
-                        SET golden_kek = golden_kek - 1
+                    UPDATE user
+                        SET golden_count = golden_count - 1
                     WHERE (discord_id = "${message.author.id}")
                 `;
                 client.sqlCon.query(userQuery, (error, result, fields) => {

@@ -1,3 +1,4 @@
+const userUtils = require('./helpers/userUtils.js');
 const Discord = require('discord.js');
 const client = new Discord.Client({autoReconnect:true});
 const Enmap = require('enmap');
@@ -49,10 +50,11 @@ fs.readdir('./commands/', (err, files) => {
 //client.login(config.production); // production
 client.login(config.testing); // testing
 
-
 // Event Handlers
 client.on('ready', () => {
     console.log('Logged in as ' + client.user.tag);
+    // Scan and add new users to the MySQL database
+    userUtils.scanUsers(client);
     client.user.setActivity('God | !info');
 });
 

@@ -3,8 +3,9 @@ module.exports = (client, message) => {
     if (message.author.bot) return;
 
     // USER MESSAGE COUNT
-    if (message.channel.name != "bot_test") { // Test messages don't count
-        updateMessage(message);
+    // TODO: this should be a configurable array of channel IDs to ignore
+    if (message.channel.id != "526091649667956745") { // Test messages don't count
+        addMessage(message);
     }
     
     // SCAN MESSAGE FOR CUSTOM EMOTES
@@ -13,7 +14,6 @@ module.exports = (client, message) => {
         const emote = client.emojis.find(emoji => emoji.name === emoteName);
         if (emote !== null) {
             // Emoji exists in this server
-            console.log(`Updating emote ${emote.name}`);
             updateEmote(emote, message);
         }
     }
@@ -59,31 +59,29 @@ module.exports = (client, message) => {
      */
     function updateEmote(emote) {
         const query = `
-        INSERT INTO EMOTE (name, server_id, emote_id, image_url, count)
-        VALUES ("${emote.name}", "${message.guild.id}", "${emote.id}", "${emote.url}", 1)
+        INSERT INTO emote (name, emote_id, image_url, count)
+        VALUES ("${emote.name}", "${emote.id}", "${emote.url}", 1)
         ON DUPLICATE KEY UPDATE
             count = count + 1
         `;
         client.sqlCon.query(query, (error, result) => {
             if (error) throw error;
-            // console.log(`${result.affectedRows} EMOTE record(s) updated`);
         });
     }
 
+
     /**
-     * Update the message counter of a message's author
-     * @param {Discord.Message} message Message being processed for information
+     * Insert a record of a new message
+     * @param {Discord.Message} message Message being processed
      */
-    function updateMessage(message) {
+    function addMessage(message) {
         const query = `
-        INSERT INTO USER (discord_id, username, messages, golden_kek, cosmic_kek)
-        VALUES ("${message.author.id}", "${message.author.username}", 1, 0, 0)
-        ON DUPLICATE KEY UPDATE
-            messages = messages + 1
+        INSERT INTO message (message_id, author_id, channel_id)
+        VALUES ("${message.id}", "${message.author.id}", "${message.channel.id}")
         `;
+
         client.sqlCon.query(query, (error, result) => {
             if (error) throw error;
-            // console.log(`${result.affectedRows} USER record(s) updated`);
         });
     }
 };

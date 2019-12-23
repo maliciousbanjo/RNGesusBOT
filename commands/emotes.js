@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 exports.run = (client, message) => {
     const query = `
         SELECT name, count
-        FROM EMOTE
+        FROM emote
         ORDER BY count DESC
         LIMIT 10;
     `;
