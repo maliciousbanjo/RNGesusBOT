@@ -30,10 +30,11 @@ function scanEmotes(client) {
             INSERT IGNORE INTO emote (name, emote_id)
             VALUES ("${emote.name}", "${emote.id}")
         `;
+        client.sqlCon.query(query, (error, result) => {
+            if (error) throw error;
+        });
     });
-    client.sqlCon.query(query, (error, result) => {
-        if (error) throw error;
-    });
+    console.log("Emote scan complete");
 }
 module.exports.scanUsers = scanUsers;
 module.exports.addUser = addUser;
