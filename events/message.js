@@ -53,19 +53,12 @@ module.exports = (client, message) => {
         kek.run(client, message);
     }
 
-    
+
     /**
      * Update the server emote usage
      * @param {Discord.Emoji} emote  The emote being updated
      */
     function updateEmote(emote) {
-        // const query = `
-        //     INSERT INTO emote (name, emote_id, count)
-        //     VALUES ("${emote.name}", "${emote.id}", 1)
-        //     ON DUPLICATE KEY UPDATE
-        //         count = count + 1
-        // `;
-
         const query = `
             UPDATE emote
                 SET count = count + 1
@@ -74,6 +67,16 @@ module.exports = (client, message) => {
 
         client.sqlCon.query(query, (error, result) => {
             if (error) throw error;
+            if (result.affectedRows === 0) {
+                console.log("Unregistered emote used; registering now...");
+                const query = `
+                    INSERT INTO emote (name, emote_id, count)
+                    VALUES ("${emote.name}", "${emote.id}", 1)
+                `;
+                client.sqlCon.query(query, (error, result) => {
+                    if (error) throw error;
+                });
+            }
         });
     }
 
