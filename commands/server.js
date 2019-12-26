@@ -11,7 +11,7 @@ exports.run = (client, message) => {
         SELECT user.username, user.discord_id, count(message.author_id) AS 'message_count'
         FROM message LEFT JOIN user
             ON user.discord_id=message.author_id
-        GROUP BY username 
+        GROUP BY username, discord_id 
         ORDER BY message_count
         LIMIT 1;
 

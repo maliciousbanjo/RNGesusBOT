@@ -53,17 +53,25 @@ module.exports = (client, message) => {
         kek.run(client, message);
     }
 
+    
     /**
      * Update the server emote usage
      * @param {Discord.Emoji} emote  The emote being updated
      */
     function updateEmote(emote) {
+        // const query = `
+        //     INSERT INTO emote (name, emote_id, count)
+        //     VALUES ("${emote.name}", "${emote.id}", 1)
+        //     ON DUPLICATE KEY UPDATE
+        //         count = count + 1
+        // `;
+
         const query = `
-        INSERT INTO emote (name, emote_id, image_url, count)
-        VALUES ("${emote.name}", "${emote.id}", "${emote.url}", 1)
-        ON DUPLICATE KEY UPDATE
-            count = count + 1
+            UPDATE emote
+                SET count = count + 1
+                WHERE name = "${emote.name}"
         `;
+
         client.sqlCon.query(query, (error, result) => {
             if (error) throw error;
         });
@@ -76,8 +84,8 @@ module.exports = (client, message) => {
      */
     function addMessage(message) {
         const query = `
-        INSERT INTO message (message_id, author_id, channel_id)
-        VALUES ("${message.id}", "${message.author.id}", "${message.channel.id}")
+            INSERT INTO message (message_id, author_id, channel_id)
+            VALUES ("${message.id}", "${message.author.id}", "${message.channel.id}")
         `;
 
         client.sqlCon.query(query, (error, result) => {

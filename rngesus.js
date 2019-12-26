@@ -55,6 +55,7 @@ client.on('ready', () => {
     console.log('Logged in as ' + client.user.tag);
     // Scan and add new users to the MySQL database
     userUtils.scanUsers(client);
+    userUtils.scanEmotes(client);
     client.user.setActivity('God | !info');
 });
 

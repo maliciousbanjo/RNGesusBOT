@@ -21,5 +21,20 @@ function addUser(user, client) {
         if (error) throw error;
     });
 }
+
+function scanEmotes(client) {
+    console.log("Scanning emotes...");
+    let query = ``;
+    client.emojis.forEach(emote => {
+        query = `
+            INSERT IGNORE INTO emote (name, emote_id)
+            VALUES ("${emote.name}", "${emote.id}")
+        `;
+    });
+    client.sqlCon.query(query, (error, result) => {
+        if (error) throw error;
+    });
+}
 module.exports.scanUsers = scanUsers;
 module.exports.addUser = addUser;
+module.exports.scanEmotes = scanEmotes;

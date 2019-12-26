@@ -1,9 +1,9 @@
 exports.run = (client, message) => {
     // Increase kek count regardless of result
     const query = `
-    UPDATE user
-        SET kek_count = kek_count + 1
-    WHERE (discord_id = "${message.author.id}")
+        UPDATE user
+            SET kek_count = kek_count + 1
+        WHERE (discord_id = "${message.author.id}")
     `;
     client.sqlCon.query(query, (error, result) => {
         if (error) throw error;

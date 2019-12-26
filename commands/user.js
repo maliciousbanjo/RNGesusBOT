@@ -5,12 +5,7 @@ exports.run = (client, message, userTag) => {
         // Process UserID out of args array
         const userId = numMatch.exec(userTag[0])[0];
 
-        // Fetch the Discord user from MySQL
-        // const query = `
-        //     SELECT * FROM user
-        //     WHERE discord_id = "${userId}"
-        // `;
-        const newQuery = `
+        const query = `
             SELECT user.*, count(message.author_id) AS 'message_count'
             FROM message LEFT JOIN user
                 ON user.discord_id=message.author_id
