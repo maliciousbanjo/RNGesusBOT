@@ -68,7 +68,7 @@ module.exports = (client, message) => {
         client.sqlCon.query(query, (error, result) => {
             if (error) throw error;
             if (result.affectedRows === 0) {
-                console.log("Unregistered emote used; registering now...");
+                console.log(`Unregistered emote "${emote.name}" used; registering now...`);
                 const query = `
                     INSERT INTO emote (name, emote_id, count)
                     VALUES ("${emote.name}", "${emote.id}", 1)
