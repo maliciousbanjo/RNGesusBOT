@@ -9,7 +9,7 @@ module.exports = (client, message) => {
     }
     
     // SCAN MESSAGE FOR CUSTOM EMOTES
-    scanForEmotes(message);
+    scanForEmotes(message, client);
 
     // COMMAND WITH ARGS
     if (message.content.indexOf(client.config.prefix) === 0) {
@@ -89,15 +89,17 @@ module.exports = (client, message) => {
         });
     }
 
-    function scanForEmotes(message) {
-        // let emoteName = '';
-        // let emoteArray = [];
-        // let emote = null;
-
-        const emoteArray = message.content.match(/<:\w*:\d*>/mg);
-        const emoteSet = [...new Set(emoteArray)];
+    function scanForEmotes(message, client) {
+        const emoteSet = [...new Set(message.content.match(/<:\w*:\d*>/mg))];
         if (emoteSet !== null) {
             console.log(emoteSet.toString());
+            emoteSet.forEach(identifier => {
+                let emote = client.emojis.find(emoji => emoji.identifier === identifier);
+                if (emote !== null) {
+                    // Emoji exists in this server
+                    updateEmote(emote);
+                }
+            });
         }
 
         // do {

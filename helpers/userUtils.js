@@ -26,6 +26,7 @@ function scanEmotes(client) {
     console.log("Scanning emotes...");
     let query = ``;
     client.emojis.forEach(emote => {
+        console.log(emote.identifier.toString());
         query = `
             INSERT IGNORE INTO emote (name, emote_id)
             VALUES ("${emote.name}", "${emote.id}")
