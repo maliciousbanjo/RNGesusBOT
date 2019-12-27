@@ -29,15 +29,16 @@ exports.run = (client, message) => {
         }
     }
 
-    if (!goldenKek) {
-        chance = Math.floor(Math.random() * client.config.cosmicRate); // Cosmic kek
-        if (chance == 0) {
-            console.log(`${message.author.username} has received the Cosmic Kek`);
-            message.reply("http://i.imgur.com/MJ4QnXr.jpg");
-            cosmicKekUpdate();
-            return;
-        }
-    }
+    // // Chance of Cosmic Kek
+    // if (!goldenKek) {
+    //     chance = Math.floor(Math.random() * client.config.cosmicRate); // Cosmic kek
+    //     if (chance == 0) {
+    //         console.log(`${message.author.username} has received the Cosmic Kek`);
+    //         message.reply("http://i.imgur.com/MJ4QnXr.jpg");
+    //         cosmicKekUpdate();
+    //         return;
+    //     }
+    // }
 
     
     /**
@@ -57,6 +58,7 @@ exports.run = (client, message) => {
     }
 
     /**
+     * @deprecated as of version 2.7.0
      * Update the user's cosmic kek count and the most recent server kek in MySQL
      */
     function cosmicKekUpdate() {

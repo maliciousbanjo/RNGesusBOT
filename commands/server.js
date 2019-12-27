@@ -21,14 +21,13 @@ exports.run = (client, message) => {
         GROUP BY username, discord_id
         ORDER BY golden_max DESC
         LIMIT 1;
-
-        SELECT MAX(user.cosmic_count) as cosmic_max, discord_id, username
-        FROM user
-        WHERE cosmic_max > 0
-        GROUP BY username, discord_id
-        ORDER BY cosmic_max DESC
-        LIMIT 1;
     `;
+    // SELECT MAX(user.cosmic_count) as cosmic_max, discord_id, username
+    // FROM user
+    // WHERE cosmic_max > 0
+    // GROUP BY username, discord_id
+    // ORDER BY cosmic_max DESC
+    // LIMIT 1;
 
     client.sqlCon.query(query, (error, result, fields) => {
         if (error) throw error;
@@ -36,7 +35,7 @@ exports.run = (client, message) => {
         const totalMessages = result[1][0].total_messages;
         const maxMessageUser = message.guild.members.find(user => user.id === result[2][0].discord_id);
         const maxGoldenUser = message.guild.members.find(user => user.id === result[3][0].discord_id);
-        const maxCosmicUser = message.guild.members.find(user => user.id === result[4][0].discord_id);
+        // const maxCosmicUser = message.guild.members.find(user => user.id === result[4][0].discord_id);
         
         const richEmbed = new Discord.RichEmbed()
         .setColor('BLUE')
@@ -48,11 +47,11 @@ exports.run = (client, message) => {
         .addField('Top Poster', `${maxMessageUser}: ${result[2][0].message_count}`);
 
         if (maxGoldenUser !== null) {
-            richEmbed.addField('Top Golden Kekker', `${maxGoldenUser}: ${result[3][0].golden_max}`);
+            richEmbed.addField('Top Kekker', `${maxGoldenUser}: ${result[3][0].golden_max}`);
         }
-        if (maxCosmicUser !== null) {
-            richEmbed.addField('Top Cosmic Kekker', `${maxCosmicUser}: ${result[4][0].cosmic_max}`);
-        }
+        // if (maxCosmicUser !== null) {
+        //     richEmbed.addField('Top Cosmic Kekker', `${maxCosmicUser}: ${result[4][0].cosmic_max}`);
+        // }
 
         message.channel.send(richEmbed);
     });
