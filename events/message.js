@@ -89,35 +89,21 @@ module.exports = (client, message) => {
         });
     }
 
+    /**
+     * Check if a message contains emotes. If it does, update each unique instance of an emote.
+     * @param {Discord.Message} message Message being processed
+     * @param {Discord.Client} client Instance of client
+     */
     function scanForEmotes(message, client) {
         const emoteSet = [...new Set(message.content.match(/<:\w*:\d*>/mg))];
         if (emoteSet !== null) {
-            console.log(emoteSet.toString());
             emoteSet.forEach(identifier => {
-                let emote = client.emojis.find(emoji => emoji.identifier === identifier);
+                let emote = client.emojis.find(emoji => emoji.identifier === identifier.substring(2, identifier.length - 1));
                 if (emote !== null) {
                     // Emoji exists in this server
                     updateEmote(emote);
                 }
             });
         }
-
-        // do {
-        //     if (message.content.includes('<:')) {
-        //         emoteName = message.content.match(/\:(.*?)\:/)[1]; // Parse out emote
-        //         if (!emoteArray.includes(emoteName)) {
-        //             emoteArray.push(emoteName);
-        //             // Fetch emote
-        //             emote = client.emojis.find(emoji => emoji.name === emoteName);
-        //             if (emote !== null) {
-        //                 // Emoji exists in this server
-        //                 updateEmote(emote);
-        //             }
-        //         } else {
-        //             continue;
-        //         }
-        //     }
-        // }
-        // while (true);
     }
 };
