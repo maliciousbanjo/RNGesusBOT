@@ -2,7 +2,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.6.0] - Current
+## [2.7.0] - Current
+- `message` metadata is now being collected
+   - `timestamp`, `author`, and `channel` are now being collected for
+   use data metrics reporting (coming soon!)
+- Users and Emotes are automatically scanned on startup
+- Updates to `!server` command
+   - "Total Messages" has been added
+   - "Most Recent Kekkers" has been removed
+- Updates to `!user` command
+   - Added "Total Keks"
+   - Added "Kek Ratio"
+
+## [2.6.0] - Released
 - Introducing quotes
    - `!quote <message Id>` to quote a previous post
    - For easier use, turn on Developer Mode to unlock "Copy ID" with a right click

@@ -9,14 +9,7 @@ module.exports = (client, message) => {
     }
     
     // SCAN MESSAGE FOR CUSTOM EMOTES
-    if (message.content.includes('<:')) {
-        const emoteName = message.content.match(/\:(.*?)\:/)[1]; // Parse out emote
-        const emote = client.emojis.find(emoji => emoji.name === emoteName);
-        if (emote !== null) {
-            // Emoji exists in this server
-            updateEmote(emote, message);
-        }
-    }
+    scanForEmotes(message);
 
     // COMMAND WITH ARGS
     if (message.content.indexOf(client.config.prefix) === 0) {
@@ -94,5 +87,33 @@ module.exports = (client, message) => {
         client.sqlCon.query(query, (error, result) => {
             if (error) throw error;
         });
+    }
+
+    function scanForEmotes(message) {
+        let emoteName = '';
+        let emoteArray = [];
+        let emote = null;
+        // :[^:\s]*(?:::[^:\s]*)*:
+
+        emoteArray = message.content.match(":[^:\s]*(?:::[^:\s]*)*:")
+        console.log(emoteArray.toString());
+
+        // do {
+        //     if (message.content.includes('<:')) {
+        //         emoteName = message.content.match(/\:(.*?)\:/)[1]; // Parse out emote
+        //         if (!emoteArray.includes(emoteName)) {
+        //             emoteArray.push(emoteName);
+        //             // Fetch emote
+        //             emote = client.emojis.find(emoji => emoji.name === emoteName);
+        //             if (emote !== null) {
+        //                 // Emoji exists in this server
+        //                 updateEmote(emote);
+        //             }
+        //         } else {
+        //             continue;
+        //         }
+        //     }
+        // }
+        // while (true);
     }
 };

@@ -17,12 +17,14 @@ exports.run = (client, message) => {
 
         SELECT MAX(user.golden_count) as golden_max, discord_id, username
         FROM user
+        WHERE golden_max > 0
         GROUP BY username, discord_id
         ORDER BY golden_max DESC
         LIMIT 1;
 
         SELECT MAX(user.cosmic_count) as cosmic_max, discord_id, username
         FROM user
+        WHERE cosmic_max > 0
         GROUP BY username, discord_id
         ORDER BY cosmic_max DESC
         LIMIT 1;
