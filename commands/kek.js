@@ -22,8 +22,9 @@ exports.run = (client, message) => {
             return;
         } else { // Normal golden kek
             console.log(`${message.author.username} has received the Golden Kek`);
-            //message.reply("http://i.imgur.com/Qvpx2KK.png"); // Golden Kek
             message.reply("https://gfycat.com/jollyuglyape"); // Christmas Kek
+            // const kekImageUrl = client.config.goldenImages[Math.floor(Math.random()*client.config.goldenImages.length)];
+            // message.reply(kekImageUrl)
             goldenKekUpdate();
             return;
         }
