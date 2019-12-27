@@ -90,13 +90,15 @@ module.exports = (client, message) => {
     }
 
     function scanForEmotes(message) {
-        let emoteName = '';
-        let emoteArray = [];
-        let emote = null;
-        // :[^:\s]*(?:::[^:\s]*)*:
+        // let emoteName = '';
+        // let emoteArray = [];
+        // let emote = null;
 
-        emoteArray = message.content.match(":[^:\s]*(?:::[^:\s]*)*:")
-        console.log(emoteArray.toString());
+        const emoteArray = message.content.match("<:\w*:\d*>");
+        if (emoteArray.length !== 0) {
+            console.log(emoteArray.length);
+            console.log(emoteArray.toString());
+        }
 
         // do {
         //     if (message.content.includes('<:')) {
