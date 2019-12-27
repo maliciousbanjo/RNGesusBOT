@@ -94,10 +94,10 @@ module.exports = (client, message) => {
         // let emoteArray = [];
         // let emote = null;
 
-        const emoteArray = message.content.match("<:\w*:\d*>");
-        if (emoteArray.length !== 0) {
-            console.log(emoteArray.length);
-            console.log(emoteArray.toString());
+        const emoteArray = message.content.match(/<:\w*:\d*>/mg);
+        const emoteSet = [...new Set(emoteArray)];
+        if (emoteSet !== null) {
+            console.log(emoteSet.toString());
         }
 
         // do {
