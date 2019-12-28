@@ -44,13 +44,14 @@ exports.run = (client, message) => {
         .addField('Top Emote', `${topEmote}`)
         .addField('Total Messages', `${totalMessages}`);
 
-        // This would only be null if the database is completely empty
-        if (result[2][0] !== null) {
+        // This would only be undefined if the database is completely empty
+        if (result[2][0] !== undefined) {
             const maxMessageUser = message.guild.members.find(user => user.id === result[2][0].discord_id);
             richEmbed.addField('Top Poster', `${maxMessageUser}: ${result[2][0].message_count}`);
         }
         // Check if any golden keks have been awarded
-        if (result[3][0] !== null) {
+        if (result[3][0] !== undefined) {
+            console.log(result[3][0]);
             const maxGoldenUser = message.guild.members.find(user => user.id === result[3][0].discord_id);
             richEmbed.addField('Top Kekker', `${maxGoldenUser}: ${result[3][0].golden_max}`);
         }
