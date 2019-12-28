@@ -22,12 +22,6 @@ exports.run = (client, message) => {
         ORDER BY golden_max DESC
         LIMIT 1;
     `;
-    // SELECT MAX(user.cosmic_count) as cosmic_max, discord_id, username
-    // FROM user
-    // WHERE cosmic_max > 0
-    // GROUP BY username, discord_id
-    // ORDER BY cosmic_max DESC
-    // LIMIT 1;
 
     client.sqlCon.query(query, (error, result, fields) => {
         if (error) throw error;

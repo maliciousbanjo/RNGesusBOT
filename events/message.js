@@ -4,7 +4,7 @@ module.exports = (client, message) => {
 
     // USER MESSAGE COUNT
     // TODO: this should be a configurable array of channel IDs to ignore
-    if (message.channel.id != "526091649667956745") { // Test messages don't count
+    if (message.channel.id != "526091649667956745" && message.channel.id != "303282388237025282") { // Test messages don't count
         addMessage(message);
     }
     

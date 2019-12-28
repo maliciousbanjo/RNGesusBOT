@@ -23,18 +23,26 @@ exports.run = (client, message, userTag) => {
                 .setThumbnail(targetUser.user.avatarURL)
                 .addField('Role', targetUser.highestRole.name)
                 .addField('User Since', new Date(targetUser.user.createdAt).toDateString())
-                .addField('Joined Server', new Date(targetUser.joinedAt).toDateString())
-                .addField('Messages', result[0].message_count);
+                .addField('Joined Server', new Date(targetUser.joinedAt).toDateString());
+                
+            if (typeof result[0] != 'undefined') { // Check if query received results
+                if (result[0].message_count) {
+                    richEmbed.addField('Messages', result[0].message_count);
+                }
+                if (result[0].kek_count !== 0) {
+                    richEmbed.addField('Kek Count', result[0].kek_count);
+                }
+                if (result[0].golden_count !== 0) {
+                    richEmbed.addField('Golden Keks', result[0].golden_count)
+                }
+                if (result[0].kek_count !== 0 && result[0].golden_count !== 0) {
+                    const kekRatio = (result[0].golden_count / result[0].kek_count).toFixed(3);
+                    richEmbed.addField('Kek Ratio', kekRatio);
+                }
 
-            if (result[0].kek_count !== 0) {
-                richEmbed.addField('Kek Count', result[0].kek_count);
-            }
-            if (result[0].golden_count !== 0) {
-                richEmbed.addField('Golden Keks', result[0].golden_count)
-            }
-            if (result[0].kek_count !== 0 && result[0].golden_count !== 0) {
-                const kekRatio = (result[0].golden_count / result[0].kek_count).toFixed(3);
-                richEmbed.addField('Kek Ratio', kekRatio);
+            } else {
+                // This user has not posted any messages
+                richEmbed.addField('Messages', 0);
             }
 
             message.channel.send(richEmbed);
