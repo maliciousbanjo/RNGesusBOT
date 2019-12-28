@@ -33,26 +33,27 @@ exports.run = (client, message) => {
         if (error) throw error;
         const topEmote = client.emojis.find(emoji => emoji.name === result[0][0].name);
         const totalMessages = result[1][0].total_messages;
-        const maxMessageUser = message.guild.members.find(user => user.id === result[2][0].discord_id);
-        const maxGoldenUser = message.guild.members.find(user => user.id === result[3][0].discord_id);
-        // const maxCosmicUser = message.guild.members.find(user => user.id === result[4][0].discord_id);
-        
+        if (result[2][0] !== null) {
+
+        }        
         const richEmbed = new Discord.RichEmbed()
         .setColor('BLUE')
         .setTitle(message.guild.name)
         .setThumbnail(message.guild.iconURL)
         .addField('Created', new Date(message.guild.createdAt).toDateString())
         .addField('Top Emote', `${topEmote}`)
-        .addField('Total Messages', `${totalMessages}`)
-        .addField('Top Poster', `${maxMessageUser}: ${result[2][0].message_count}`);
+        .addField('Total Messages', `${totalMessages}`);
 
-        if (maxGoldenUser !== null) {
+        // This would only be null if the database is completely empty
+        if (result[2][0] !== null) {
+            const maxMessageUser = message.guild.members.find(user => user.id === result[2][0].discord_id);
+            richEmbed.addField('Top Poster', `${maxMessageUser}: ${result[2][0].message_count}`);
+        }
+        // Check if any golden keks have been awarded
+        if (result[3][0] !== null) {
+            const maxGoldenUser = message.guild.members.find(user => user.id === result[3][0].discord_id);
             richEmbed.addField('Top Kekker', `${maxGoldenUser}: ${result[3][0].golden_max}`);
         }
-        // if (maxCosmicUser !== null) {
-        //     richEmbed.addField('Top Cosmic Kekker', `${maxCosmicUser}: ${result[4][0].cosmic_max}`);
-        // }
-
         message.channel.send(richEmbed);
     });
 }

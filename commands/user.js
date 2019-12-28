@@ -32,9 +32,6 @@ exports.run = (client, message, userTag) => {
             if (result[0].golden_count !== 0) {
                 richEmbed.addField('Golden Keks', result[0].golden_count)
             }
-            // if (result[0].cosmic_count !== 0) {
-            //     richEmbed.addField('Cosmic Keks', result[0].cosmic_count);
-            // }
             if (result[0].kek_count !== 0 && result[0].golden_count !== 0) {
                 const kekRatio = (result[0].golden_count / result[0].kek_count).toFixed(3);
                 richEmbed.addField('Kek Ratio', kekRatio);
