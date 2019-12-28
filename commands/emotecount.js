@@ -13,6 +13,13 @@ exports.run = (client, message) => {
 
     client.sqlCon.query(query, (error, result, fields) => {
         if (error) throw error;
+        if (result.length == 0) {
+            message.author.createDM()
+            .then(channel => {
+                channel.send("There are no emotes recorded");
+            });
+            return;
+        }
         let emoteString = ``;
         result.forEach(element => {
             emoteString += `${client.emojis.find(emoji => emoji.name === element.name)} | ${element.count}\n`;

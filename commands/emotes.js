@@ -10,13 +10,17 @@ exports.run = (client, message) => {
 
     client.sqlCon.query(query, (error, result, fields) => {
         if (error) throw error;
+        if (result.length == 0) {
+            message.channel.send("There are no emotes recorded");
+            return;
+        }
         let emoteString = ``;
         result.forEach(element => {
             emoteString += `${client.emojis.find(emoji => emoji.name === element.name)}\n`;
         });
         const richEmbed = new Discord.RichEmbed()
-        .setColor('BLUE')
-        .addField('Top Emotes', emoteString);
+            .setColor('BLUE')
+            .addField('Top Emotes', emoteString);
         message.channel.send(richEmbed);
     });
 }
