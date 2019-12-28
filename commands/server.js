@@ -17,7 +17,7 @@ exports.run = (client, message) => {
 
         SELECT MAX(user.golden_count) as golden_max, discord_id, username
         FROM user
-        WHERE golden_max > 0
+        WHERE golden_count > 0
         GROUP BY username, discord_id
         ORDER BY golden_max DESC
         LIMIT 1;
