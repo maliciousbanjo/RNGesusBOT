@@ -93,10 +93,10 @@ exports.run = (client, message, channel_id) => {
     }
 
     function updateEmote(emote, count) {
-        console.log(`Updating emote "${emote.name}"`);
+        //console.log(`Updating emote "${emote.name}"`);
         const query = `
         UPDATE emote
-            SET count = ${count}
+            SET count = count + ${count}
             WHERE name = "${emote.name}"
         `;
         // Execute SQL query
