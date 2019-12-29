@@ -2,10 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.7.0] - Current
+## [3.0.0] - Current
 - `message` metadata is now being collected
    - `timestamp`, `author`, and `channel` are now being collected for
-   use data metrics reporting (coming soon!)
+   use with metrics reporting (coming soon!)
 - Users and Emotes are automatically scanned on startup
 - Removal of Cosmic Kek, press F to pay respects
 - Updates to `!server` command

@@ -2,10 +2,6 @@
 function scanUsers(client) {
     console.log('Scanning users...');
     client.users.forEach(user => {
-        if (user.bot) {
-            // Do not add a bot
-            return;
-        }
         addUser(user, client); 
     });
     console.log('User scan complete.');
@@ -26,7 +22,6 @@ function scanEmotes(client) {
     console.log("Scanning emotes...");
     let query = ``;
     client.emojis.forEach(emote => {
-        console.log(emote.identifier.toString());
         query = `
             INSERT IGNORE INTO emote (name, emote_id)
             VALUES ("${emote.name}", "${emote.id}")

@@ -12,7 +12,7 @@ exports.run = (client, message) => {
         FROM message LEFT JOIN user
             ON user.discord_id=message.author_id
         GROUP BY username, discord_id 
-        ORDER BY message_count
+        ORDER BY message_count DESC
         LIMIT 1;
 
         SELECT MAX(user.golden_count) as golden_max, discord_id, username
