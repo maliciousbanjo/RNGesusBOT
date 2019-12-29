@@ -82,7 +82,7 @@ exports.run = (client, message, channel_id) => {
         // Outside the while loop
         // Update final emote totals
         emoteCounts.forEach((count, emoteString) => {
-            const emoteName = identifier.match(/\:(.*?)\:/)[1]; // Parse out emote
+            const emoteName = emoteString.match(/\:(.*?)\:/)[1]; // Parse out emote
             let emote = client.emojis.find(emoji => emoji.name === emoteName);
             if (emote !== null) {
                 // Emoji exists in the server
