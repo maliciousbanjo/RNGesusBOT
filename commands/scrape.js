@@ -3,20 +3,36 @@ exports.run = (client, message, channel_id) => {
         message.reply("You do not have permission to run this command.");
         return;
     }
-
-    const channel = client.channels.get(channel_id[0]);
-    if (channel == null) {
-        message.channel.send("Sorry, I couldn't locate that channel");
+    if (channel_id.length === 0) {
+        // No channel was specified, grab them all
+        message.guild.channels.forEach(channel => {
+            if (channel.type !== "text") {
+                return;
+            }
+            console.log(`Scraping ${channel.name}...`);
+            scrapeMessages(channel).then(total => {
+                console.log(`Processed ${total} messages from ${channel.name}`);
+            });
+            return;
+        });
+    } else {
+        // Scrape a specified channel
+        const channel = client.channels.get(channel_id[0]);
+        if (channel == null) {
+            message.channel.send("Sorry, I couldn't locate that channel");
+            return;
+        }
+        console.log(`Scraping ${channel.name}...`);
+        scrapeMessages(channel).then(total => {
+            console.log(`Processed ${total} messages`);
+        });
         return;
     }
-    scrapeMessages(channel).then(total => {
-        console.log(`Processed ${total} messages`);
-    });
 
     async function scrapeMessages(channel) {
         let last_id;
         let total_messages = 0;
-        const messageQuery = `INSERT IGNORE INTO message (message_id, author_id, channel_id) VALUES ?`;
+        const messageQuery = `INSERT IGNORE INTO message (message_id, author_id, channel_id, epoch) VALUES ?`;
         const emoteCounts = new Map();
 
         while (true) {
@@ -32,7 +48,8 @@ exports.run = (client, message, channel_id) => {
             messages.forEach(message => {
                 total_messages++;
                 // Gather message data
-                const queryValues = [message.id, message.author.id, message.channel.id];
+                const timestamp = Math.round(message.createdAt.getTime() / 1000);
+                const queryValues = [message.id, message.author.id, message.channel.id, timestamp];
                 // Add query to bulk query
                 messageValues.push(queryValues);
 
@@ -51,7 +68,7 @@ exports.run = (client, message, channel_id) => {
                     });
                 }
             });
-            
+
             // Execute query
             client.sqlCon.query(messageQuery, [messageValues], (error, result) => {
                 if (error) throw error;

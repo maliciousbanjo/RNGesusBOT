@@ -79,9 +79,10 @@ module.exports = (client, message) => {
      * @param {Discord.Message} message Message being processed
      */
     function addMessage(message) {
+        const timestamp = Math.round(message.createdAt.getTime() / 1000);
         const query = `
-            INSERT INTO message (message_id, author_id, channel_id)
-            VALUES ("${message.id}", "${message.author.id}", "${message.channel.id}")
+            INSERT INTO message (message_id, author_id, channel_id, epoch)
+            VALUES ("${message.id}", "${message.author.id}", "${message.channel.id}", ${timestamp})
         `;
 
         client.sqlCon.query(query, (error, result) => {
