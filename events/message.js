@@ -99,7 +99,8 @@ module.exports = (client, message) => {
         const emoteSet = [...new Set(message.content.match(/<:\w*:\d*>/mg))];
         if (emoteSet !== null) {
             emoteSet.forEach(identifier => {
-                let emote = client.emojis.find(emoji => emoji.identifier === identifier.substring(2, identifier.length - 1));
+                const emoteName = identifier.match(/\:(.*?)\:/)[1]; // Parse out emote
+                let emote = client.emojis.find(emoji => emoji.name === emoteName);
                 if (emote !== null) {
                     // Emoji exists in this server
                     updateEmote(emote);
