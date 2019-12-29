@@ -27,13 +27,13 @@ exports.run = (client, message, userTag) => {
                 
             if (typeof result[0] != 'undefined') { // Check if query received results
                 if (result[0].message_count) {
-                    richEmbed.addField('Messages', result[0].message_count);
+                    richEmbed.addField('Messages', result[0].message_count.toLocaleString());
                 }
                 if (result[0].kek_count !== 0) {
-                    richEmbed.addField('Kek Count', result[0].kek_count);
+                    richEmbed.addField('Kek Count', result[0].kek_count.toLocaleString());
                 }
                 if (result[0].golden_count !== 0) {
-                    richEmbed.addField('Golden Keks', result[0].golden_count)
+                    richEmbed.addField('Golden Keks', result[0].golden_count.toLocaleString())
                 }
                 if (result[0].kek_count !== 0 && result[0].golden_count !== 0) {
                     const kekRatio = (result[0].golden_count / result[0].kek_count).toFixed(3);

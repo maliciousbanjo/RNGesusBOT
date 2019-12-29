@@ -6,13 +6,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - `message` metadata is now being collected
    - `timestamp`, `author`, and `channel` are now being collected for
    use with metrics reporting (coming soon!)
+   - **ALL** message/emote history has been gathered
 - Users and Emotes are automatically scanned on startup
 - Removal of Cosmic Kek, press F to pay respects
 - Updates to `!server` command
    - "Total Messages" has been added
    - "Most Recent Kekkers" has been removed
 - Updates to `!user` command
-   - Added "Total Keks"
+   - Added "Kek Count"
    - Added "Kek Ratio"
 - Multiple unique emotes can be detected/updated in a single message
 

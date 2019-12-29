@@ -29,18 +29,6 @@ exports.run = (client, message) => {
             return;
         }
     }
-
-    // // Chance of Cosmic Kek
-    // if (!goldenKek) {
-    //     chance = Math.floor(Math.random() * client.config.cosmicRate); // Cosmic kek
-    //     if (chance == 0) {
-    //         console.log(`${message.author.username} has received the Cosmic Kek`);
-    //         message.reply("http://i.imgur.com/MJ4QnXr.jpg");
-    //         cosmicKekUpdate();
-    //         return;
-    //     }
-    // }
-
     
     /**
      * Update the user's golden kek count and the most recent server kek in MySQL
