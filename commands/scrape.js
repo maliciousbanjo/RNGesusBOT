@@ -47,7 +47,6 @@ exports.run = (client, message, channel_id) => {
             // Process the messages
             messages.forEach(message => {
                 // We're only looking for messages from Pink Gradiant Man
-                if (message.author.id !== '126849273408126977') return;
                 total_messages++;
                 // Gather message data
                 const timestamp = Math.round(message.createdAt.getTime() / 1000);
@@ -56,19 +55,19 @@ exports.run = (client, message, channel_id) => {
                 messageValues.push(queryValues);
 
                 // Do not gather emote data from bot posts
-                // if (!message.author.bot) {
-                //     // Gather emote data
-                //     const emoteSet = [...new Set(message.content.match(/<:\w*:\d*>/mg))];
-                //     emoteSet.forEach(identifier => {
-                //         if (emoteCounts.has(identifier)) {
-                //             // Increase count
-                //             emoteCounts.set(identifier, emoteCounts.get(identifier)+1)
-                //         } else {
-                //             // Register new emote with initial value of 1
-                //             emoteCounts.set(identifier, 1);
-                //         }
-                //     });
-                // }
+                if (!message.author.bot) {
+                    // Gather emote data
+                    const emoteSet = [...new Set(message.content.match(/<:\w*:\d*>/mg))];
+                    emoteSet.forEach(identifier => {
+                        if (emoteCounts.has(identifier)) {
+                            // Increase count
+                            emoteCounts.set(identifier, emoteCounts.get(identifier)+1)
+                        } else {
+                            // Register new emote with initial value of 1
+                            emoteCounts.set(identifier, 1);
+                        }
+                    });
+                }
             });
 
             // Execute query
