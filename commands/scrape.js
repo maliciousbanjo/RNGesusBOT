@@ -72,9 +72,12 @@ exports.run = (client, message, channel_id) => {
             });
 
             // Execute query
-            client.sqlCon.query(messageQuery, [messageValues], (error, result) => {
-                if (error) throw error;
-            });
+            if (messageValues.length !== 0) {
+                client.sqlCon.query(messageQuery, [messageValues], (error, result) => {
+                    if (error) throw error;
+                });    
+            }
+
             last_id = messages.last().id;
 
             if (messages.size < 100) {
