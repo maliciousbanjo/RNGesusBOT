@@ -11,7 +11,7 @@ exports.run = (client, message, userTag) => {
             FROM message LEFT JOIN user
                 ON user.discord_id=message.author_id
             WHERE user.discord_id="${userId}"
-            GROUP BY user.username;
+            GROUP BY user.username
         `;
         client.sqlCon.query(query, (error, result, fields) => {
             if (error) throw error;
