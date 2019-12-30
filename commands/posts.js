@@ -22,7 +22,7 @@ exports.run = (client, message) => {
         for (i = 0; i < result.length; i++) {
             // Fetch the user profile from Discord
             const user = message.guild.members.find(user => user.id === result[i].discord_id);
-            userString += `${i+1}. ${user}: ${record[i].message_count.toLocaleString()}\n`;
+            userString += `${i+1}. ${user}: ${result[i].message_count.toLocaleString()}\n`;
         }
 
         // Build the RichEmbed
@@ -32,6 +32,6 @@ exports.run = (client, message) => {
             .setThumbnail(message.guild.iconURL)
             .addField('Users', userString);
         
-        message.channel.send(richEmbed);s
+        message.channel.send(richEmbed);
     });
 }

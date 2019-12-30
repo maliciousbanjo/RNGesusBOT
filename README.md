@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
    - `timestamp`, `author`, and `channel` are now being collected for
    use with metrics reporting (coming soon!)
    - **ALL** message/emote history has been gathered
+- New command `!posts`
+   - Lists the top 10 posters in the server
 - Users and Emotes are automatically scanned on startup
 - Multiple unique emotes can be detected/updated in a single message
 - Removal of Cosmic Kek, press F to pay respects
