@@ -22,7 +22,7 @@ exports.run = (client, message) => {
         }
         let emoteString = ``;
         result.forEach(element => {
-            emoteString += `${client.emojis.find(emoji => emoji.name === element.name)} | ${element.count}\n`;
+            emoteString += `${client.emojis.find(emoji => emoji.name === element.name)} ${element.count}\n`;
         });
         const richEmbed = new Discord.RichEmbed()
         .setColor('BLUE')

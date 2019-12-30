@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const utils = require('../helpers/utils.js');
 exports.run = (client, message) => {
     const query = `
         SELECT name, count
@@ -34,20 +35,19 @@ exports.run = (client, message) => {
         .setColor('BLUE')
         .setTitle(message.guild.name)
         .setThumbnail(message.guild.iconURL)
-        .addField('Created', new Date(message.guild.createdAt).toDateString())
+        .addField('Created', utils.formatDate(message.guild.createdAt))
         .addField('Top Emote', `${topEmote}`)
-        .addField('Total Messages', `${totalMessages.toLocaleString()}`);
+        .addField('Total Messages', `${totalMessages.toLocaleString()}`, true);
 
         // This would only be undefined if the database is completely empty
         if (result[2][0] !== undefined) {
             const maxMessageUser = message.guild.members.find(user => user.id === result[2][0].discord_id);
-            richEmbed.addField('Top Poster', `${maxMessageUser}: ${result[2][0].message_count.toLocaleString()}`);
+            richEmbed.addField('Top Poster', `${maxMessageUser}: ${result[2][0].message_count.toLocaleString()}`, true);
         }
         // Check if any golden keks have been awarded
         if (result[3][0] !== undefined) {
-            console.log(result[3][0]);
             const maxGoldenUser = message.guild.members.find(user => user.id === result[3][0].discord_id);
-            richEmbed.addField('Top Kekker', `${maxGoldenUser}: ${result[3][0].golden_max.toLocaleString()}`);
+            richEmbed.addField('Top Kekker', `${maxGoldenUser}: ${result[3][0].golden_max.toLocaleString()}`, true);
         }
         message.channel.send(richEmbed);
     });

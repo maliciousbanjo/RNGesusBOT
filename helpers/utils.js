@@ -32,6 +32,22 @@ function scanEmotes(client) {
     });
     console.log("Emote scan complete");
 }
+
+function formatDate(date) {
+    const monthNames = [
+        "January", "February", "March",
+        "April", "May", "June", "July",
+        "August", "September", "October",
+        "November", "December"
+    ];
+
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+
+    return `${monthNames[monthIndex]} ${day}, ${year}`;
+}
 module.exports.scanUsers = scanUsers;
 module.exports.addUser = addUser;
 module.exports.scanEmotes = scanEmotes;
+module.exports.formatDate = formatDate;

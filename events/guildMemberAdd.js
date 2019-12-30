@@ -1,4 +1,4 @@
-const userUtils = require('./../helpers/userUtils.js');
+const utils = require('./../helpers/utils.js');
 module.exports = (client, guildMember) => {
     // Add the new user to the default role of "Disciple"
     const disciple = guildMember.guild.roles.find(role => role.name === "Disciple");
@@ -6,7 +6,7 @@ module.exports = (client, guildMember) => {
     console.log(`${guildMember.user.username} has joined the server.`);
 
     // Add the user to the MySQL database
-    userUtils.addUser(guildMember.user, client);
+    utils.addUser(guildMember.user, client);
     
     const channel = guildMember.guild.channels
         .find(channel => channel.id === client.config.defaultChannelId)

@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const utils = require('../helpers/utils.js');
 exports.run = (client, message, userTag) => {
     const numMatch = new RegExp(/\d+/);
     if(numMatch.test(userTag[0])) {
@@ -19,25 +20,26 @@ exports.run = (client, message, userTag) => {
             // Assemble the Embed
             const richEmbed = new Discord.RichEmbed()
                 .setColor('BLUE')
-                .setAuthor(targetUser.displayName, targetUser.user.avatarURL)
+                //.setAuthor(targetUser.displayName, targetUser.user.avatarURL)
+                .setTitle(targetUser.displayName)
                 .setThumbnail(targetUser.user.avatarURL)
                 .addField('Role', targetUser.highestRole.name)
-                .addField('User Since', new Date(targetUser.user.createdAt).toDateString())
-                .addField('Joined Server', new Date(targetUser.joinedAt).toDateString());
+                .addField('User Since', utils.formatDate(targetUser.user.createdAt), true)
+                .addField('Joined Server', utils.formatDate(targetUser.joinedAt), true);
                 
             if (typeof result[0] != 'undefined') { // Check if query received results
                 if (result[0].message_count) {
-                    richEmbed.addField('Messages', result[0].message_count.toLocaleString());
+                    richEmbed.addField('Messages', result[0].message_count.toLocaleString(), true);
                 }
                 if (result[0].kek_count !== 0) {
-                    richEmbed.addField('Kek Count', result[0].kek_count.toLocaleString());
+                    richEmbed.addField('Kek Attempts', result[0].kek_count.toLocaleString(), true);
                 }
                 if (result[0].golden_count !== 0) {
-                    richEmbed.addField('Golden Keks', result[0].golden_count.toLocaleString())
+                    richEmbed.addField('Golden Keks', result[0].golden_count.toLocaleString(), true);
                 }
                 if (result[0].kek_count !== 0 && result[0].golden_count !== 0) {
                     const kekRatio = (result[0].golden_count / result[0].kek_count).toFixed(3);
-                    richEmbed.addField('Kek Ratio', kekRatio);
+                    richEmbed.addField('Kek Ratio', kekRatio, true);
                 }
 
             } else {

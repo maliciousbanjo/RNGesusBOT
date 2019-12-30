@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
    use with metrics reporting (coming soon!)
    - **ALL** message/emote history has been gathered
 - Users and Emotes are automatically scanned on startup
+- Multiple unique emotes can be detected/updated in a single message
 - Removal of Cosmic Kek, press F to pay respects
 - Updates to `!server` command
    - "Total Messages" has been added
@@ -15,7 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Updates to `!user` command
    - Added "Kek Count"
    - Added "Kek Ratio"
-- Multiple unique emotes can be detected/updated in a single message
+- Formatting updates to `!info`, `!user`, and `!server`
 
 ## [2.6.0] - Released
 - Introducing quotes

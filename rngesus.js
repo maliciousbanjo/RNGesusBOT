@@ -1,4 +1,4 @@
-const userUtils = require('./helpers/userUtils.js');
+const utils = require('./helpers/utils.js');
 const Discord = require('discord.js');
 const client = new Discord.Client({autoReconnect:true});
 const Enmap = require('enmap');
@@ -47,15 +47,16 @@ fs.readdir('./commands/', (err, files) => {
 
 
 // LOGIN
-client.login(config.production); // production
+//client.login(config.production); // production
 //client.login(config.testing); // testing
+client.login(config.token);
 
 // Event Handlers
 client.on('ready', () => {
     console.log('Logged in as ' + client.user.tag);
     // Scan and add new users, emotes to the MySQL database
-    userUtils.scanUsers(client);
-    userUtils.scanEmotes(client);
+    utils.scanUsers(client);
+    utils.scanEmotes(client);
     client.user.setActivity('God | !info');
 });
 
