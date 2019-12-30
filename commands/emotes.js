@@ -14,13 +14,20 @@ exports.run = (client, message) => {
             message.channel.send("There are no emotes recorded");
             return;
         }
+
+        // Format ranking strings
         let emoteString = ``;
-        result.forEach(element => {
-            emoteString += `${client.emojis.find(emoji => emoji.name === element.name)}\n`;
-        });
+        for (i = 0; i < result.length; i++) {
+            // Fetch the emote from Discord
+            const emote = client.emojis.find(emoji => emoji.name === result[i].name);
+            emoteString += `${i+1}. ${emote}\n`
+        }
+
+        // Build the RichEmbed
         const richEmbed = new Discord.RichEmbed()
             .setColor('BLUE')
-            .addField('Top Emotes', emoteString);
+            .setTitle(`Top Emotes in ${message.guild.name}`)
+            .addField('Emotes', emoteString);
         message.channel.send(richEmbed);
     });
 }
