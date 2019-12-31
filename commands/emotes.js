@@ -20,7 +20,7 @@ exports.run = (client, message) => {
         for (i = 0; i < result.length; i++) {
             // Fetch the emote from Discord
             const emote = client.emojis.find(emoji => emoji.name === result[i].name);
-            emoteString += `${i+1}. ${emote}\n`
+            emoteString += `${emote}\n`;
         }
 
         // Build the RichEmbed
