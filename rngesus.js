@@ -47,8 +47,6 @@ fs.readdir('./commands/', (err, files) => {
 
 
 // LOGIN
-//client.login(config.production); // production
-//client.login(config.testing); // testing
 client.login(config.token);
 
 // Event Handlers
