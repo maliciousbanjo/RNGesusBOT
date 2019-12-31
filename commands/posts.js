@@ -22,7 +22,7 @@ exports.run = (client, message) => {
         for (i = 0; i < result.length; i++) {
             // Fetch the user profile from Discord
             const user = message.guild.members.find(user => user.id === result[i].discord_id);
-            userString += `${i+1}. ${user}: ${result[i].message_count.toLocaleString()}\n`;
+            userString += `${i+1}. ${user} - ${result[i].message_count.toLocaleString()}\n`;
         }
 
         // Build the RichEmbed
