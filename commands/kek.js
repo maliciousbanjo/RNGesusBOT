@@ -74,22 +74,18 @@ exports.run = (client, message) => {
         `;
         client.sqlCon.query(query, (error, result, fields) => {
             if (error) throw error;
-            if (result[0].golden_count !== 0) {
-                const golden_kek_count = result[0].golden_count;
-                // Update the 'user' table
-                const userQuery = `
-                    UPDATE user
-                        SET golden_count = golden_count - 1
-                    WHERE (discord_id = "${message.author.id}")
-                `;
-                client.sqlCon.query(userQuery, (error, result, fields) => {
-                    if (error) throw error;
-                    message.reply("Your golden kek has been stolen by a platelet!"+
-                    `\nYour Golden Kek count is now ${golden_kek_count - 1}`)
-                });
-            } else {
-                message.reply("Your golden kek has been stolen by a platelet!")
-            }
+            const golden_kek_count = result[0].golden_count;
+            // Update the 'user' table
+            const userQuery = `
+                UPDATE user
+                    SET golden_count = golden_count - 1
+                WHERE (discord_id = "${message.author.id}")
+            `;
+            client.sqlCon.query(userQuery, (error, result, fields) => {
+                if (error) throw error;
+                message.reply("Your golden kek has been stolen by a platelet!"+
+                `\nYour Golden Kek count is now ${golden_kek_count - 1}`)
+            });
         });
         return;
     }
