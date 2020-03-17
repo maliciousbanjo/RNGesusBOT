@@ -3,20 +3,13 @@ module.exports = (client, message) => {
     if (message.author.bot) return;
 
     // USER MESSAGE COUNT
-    if (message.channel.name != "bot_test") { // Test messages don't count
-        updateMessage(message);
-    }
+    // TODO: this should be a configurable array of channel IDs to ignore
+    //if (message.channel.id != "526091649667956745" && message.channel.id != "303282388237025282") { // Test messages don't count
+        addMessage(message);
+    //}
     
     // SCAN MESSAGE FOR CUSTOM EMOTES
-    if (message.content.includes('<:')) {
-        const emoteName = message.content.match(/\:(.*?)\:/)[1]; // Parse out emote
-        const emote = client.emojis.find(emoji => emoji.name === emoteName);
-        if (emote !== null) {
-            // Emoji exists in this server
-            console.log(`Updating emote ${emote.name}`);
-            updateEmote(emote, message);
-        }
-    }
+    scanForEmotes(message, client);
 
     // COMMAND WITH ARGS
     if (message.content.indexOf(client.config.prefix) === 0) {
@@ -53,37 +46,66 @@ module.exports = (client, message) => {
         kek.run(client, message);
     }
 
+
     /**
      * Update the server emote usage
      * @param {Discord.Emoji} emote  The emote being updated
      */
     function updateEmote(emote) {
         const query = `
-        INSERT INTO EMOTE (name, server_id, emote_id, image_url, count)
-        VALUES ("${emote.name}", "${message.guild.id}", "${emote.id}", "${emote.url}", 1)
-        ON DUPLICATE KEY UPDATE
-            count = count + 1
+            UPDATE emote
+                SET count = count + 1
+                WHERE name = "${emote.name}"
         `;
+
         client.sqlCon.query(query, (error, result) => {
             if (error) throw error;
-            // console.log(`${result.affectedRows} EMOTE record(s) updated`);
+            if (result.affectedRows === 0) {
+                console.log(`Unregistered emote "${emote.name}" used; registering now...`);
+                const query = `
+                    INSERT INTO emote (name, emote_id, count)
+                    VALUES ("${emote.name}", "${emote.id}", 1)
+                `;
+                client.sqlCon.query(query, (error, result) => {
+                    if (error) throw error;
+                });
+            }
+        });
+    }
+
+
+    /**
+     * Insert a record of a new message
+     * @param {Discord.Message} message Message being processed
+     */
+    function addMessage(message) {
+        const timestamp = Math.round(message.createdAt.getTime() / 1000);
+        const query = `
+            INSERT INTO message (message_id, author_id, channel_id, epoch)
+            VALUES ("${message.id}", "${message.author.id}", "${message.channel.id}", ${timestamp})
+        `;
+
+        client.sqlCon.query(query, (error, result) => {
+            if (error) throw error;
         });
     }
 
     /**
-     * Update the message counter of a message's author
-     * @param {Discord.Message} message Message being processed for information
+     * Check if a message contains emotes. If it does, update each unique instance of an emote.
+     * @param {Discord.Message} message Message being processed
+     * @param {Discord.Client} client Instance of client
      */
-    function updateMessage(message) {
-        const query = `
-        INSERT INTO USER (discord_id, username, messages, golden_kek, cosmic_kek)
-        VALUES ("${message.author.id}", "${message.author.username}", 1, 0, 0)
-        ON DUPLICATE KEY UPDATE
-            messages = messages + 1
-        `;
-        client.sqlCon.query(query, (error, result) => {
-            if (error) throw error;
-            // console.log(`${result.affectedRows} USER record(s) updated`);
-        });
+    function scanForEmotes(message, client) {
+        const emoteSet = [...new Set(message.content.match(/<:\w*:\d*>/mg))];
+        if (emoteSet !== null) {
+            emoteSet.forEach(identifier => {
+                const emoteName = identifier.match(/\:(.*?)\:/)[1]; // Parse out emote
+                let emote = client.emojis.find(emoji => emoji.name === emoteName);
+                if (emote !== null) {
+                    // Emoji exists in this server
+                    updateEmote(emote);
+                }
+            });
+        }
     }
 };

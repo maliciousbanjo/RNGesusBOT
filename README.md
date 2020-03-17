@@ -2,7 +2,25 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.6.0] - Current
+## [3.0.0] - Current
+- `message` metadata is now being collected
+   - `timestamp`, `author`, and `channel` are now being collected for
+   use with metrics reporting (coming soon!)
+   - **ALL** message/emote history has been gathered
+- New command `!posts`
+   - Lists the top 10 posters in the server
+- Users and Emotes are automatically scanned on startup
+- Multiple unique emotes can be detected/updated in a single message
+- Removal of Cosmic Kek, press F to pay respects
+- Updates to `!server` command
+   - "Total Messages" has been added
+   - "Most Recent Kekkers" has been removed
+- Updates to `!user` command
+   - Added "Kek Count"
+   - Added "Kek Ratio"
+- Formatting updates to `!info`, `!user`, and `!server`
+
+## [2.6.0] - Released
 - Introducing quotes
    - `!quote <message Id>` to quote a previous post
    - For easier use, turn on Developer Mode to unlock "Copy ID" with a right click
