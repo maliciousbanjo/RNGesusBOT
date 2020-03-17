@@ -14,6 +14,7 @@ exports.run = (client, message, args) => {
         '`!user <@username>` - User info. Must @ tag a valid username\n' +
         '`!server` - Server info\n' +
         '`!emotes` - Top 10 Emotes\n' +
-        '`!quote <message id>` - Quote a previous message');
+        '`!quote <message id>` - Quote a previous message\n' +
+        '`!posts` - List the top 10 posters in the server\n');
     message.channel.send(richEmbed);
 }
