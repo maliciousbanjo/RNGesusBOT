@@ -32,7 +32,7 @@ exports.run = (client, message, channel_id) => {
     async function scrapeMessages(channel) {
         let last_id;
         let total_messages = 0;
-        const messageQuery = `INSERT IGNORE INTO message (message_id, author_id, channel_id, epoch) VALUES ?`;
+        const messageQuery = `INSERT IGNORE INTO message (message_id, author_id, channel_id, epoch, has_kek) VALUES ?`;
         const emoteCounts = new Map();
 
         while (true) {
@@ -46,11 +46,14 @@ exports.run = (client, message, channel_id) => {
             const messages = await channel.fetchMessages(options);
             // Process the messages
             messages.forEach(message => {
-                // We're only looking for messages from Pink Gradiant Man
+                const hasKek = false;
                 total_messages++;
                 // Gather message data
                 const timestamp = Math.round(message.createdAt.getTime() / 1000);
-                const queryValues = [message.id, message.author.id, message.channel.id, timestamp];
+                if (message.content.toLowerCase().includes('kek')) {
+                    hasKek = true;
+                }
+                const queryValues = [message.id, message.author.id, message.channel.id, timestamp, hasKek];
                 // Add query to bulk query
                 messageValues.push(queryValues);
 
