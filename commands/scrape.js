@@ -32,7 +32,8 @@ exports.run = (client, message, channel_id) => {
     async function scrapeMessages(channel) {
         let last_id;
         let total_messages = 0;
-        const messageQuery = `INSERT IGNORE INTO message (message_id, author_id, channel_id, epoch, has_kek) VALUES ?`;
+        const messageQuery = `INSERT IGNORE INTO message (message_id, author_id, channel_id, epoch, has_kek) VALUES ?
+        ON DUPLICATE KEY UPDATE has_kek = VALUES(has_kek)`;
         const emoteCounts = new Map();
 
         while (true) {
@@ -46,7 +47,7 @@ exports.run = (client, message, channel_id) => {
             const messages = await channel.fetchMessages(options);
             // Process the messages
             messages.forEach(message => {
-                const hasKek = false;
+                let hasKek = false;
                 total_messages++;
                 // Gather message data
                 const timestamp = Math.round(message.createdAt.getTime() / 1000);
