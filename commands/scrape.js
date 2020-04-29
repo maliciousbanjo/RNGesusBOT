@@ -32,8 +32,7 @@ exports.run = (client, message, channel_id) => {
     async function scrapeMessages(channel) {
         let last_id;
         let total_messages = 0;
-        const messageQuery = `INSERT IGNORE INTO message (message_id, author_id, channel_id, epoch, has_kek) VALUES ?
-        ON DUPLICATE KEY UPDATE has_kek = VALUES(has_kek)`;
+        const messageQuery = `INSERT IGNORE INTO message (message_id, author_id, channel_id, epoch, has_kek) VALUES ?`;
         const emoteCounts = new Map();
 
         while (true) {
