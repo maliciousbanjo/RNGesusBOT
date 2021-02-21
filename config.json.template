@@ -1,0 +1,13 @@
+{
+    "token": "",
+    "ownerId": "",
+    "dbHost": "",
+    "dbUsername": "",
+    "dbPassword": "",
+    "database": "",
+    "prefix": "!",
+    "defaultChannelId": "",
+    "goldenRate": 4,
+    "plateRate": 4,
+    "goldenImages": ["http://i.imgur.com/Qvpx2KK.png"]
+}

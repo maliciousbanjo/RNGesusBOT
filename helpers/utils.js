@@ -1,53 +1,41 @@
-// This one might not be necessary, just add this code to the client startup?
-function scanUsers(client) {
-    console.log('Scanning users...');
-    client.users.forEach(user => {
-        addUser(user, client); 
-    });
-    console.log('User scan complete.');
+function scanUsers(client, serverId) {
+  console.log('Scanning users...');
+  const guild = client.guilds.cache.get(serverId);
+  guild.members.cache.each((guildMember) => {
+    addUser(guildMember.user, client);
+  });
+  console.log('User scan complete.');
 }
 
+// TODO: I think this could be a multi-query
 function addUser(user, client) {
-    const query = `
+  const query = `
     INSERT IGNORE INTO user(discord_id, username)
     VALUES ("${user.id}", "${user.username}")
     `;
-    console.log(`Adding user ${user.username} to database...`);
-    client.sqlCon.query(query, (error, result) => {
-        if (error) throw error;
-    });
+  console.log(`Adding user ${user.username} to database`);
+  client.sqlCon.query(query, (error) => {
+    if (error) throw error;
+  });
 }
 
+// TODO: I think this could be a multi-query. Make this and ScanUsers look similar.
 function scanEmotes(client) {
-    console.log("Scanning emotes...");
-    let query = ``;
-    client.emojis.forEach(emote => {
-        query = `
+  console.log('Scanning emotes...');
+  let query = ``;
+  client.emojis.cache.each((emote) => {
+    query = `
             INSERT IGNORE INTO emote (name, emote_id)
             VALUES ("${emote.name}", "${emote.id}")
         `;
-        client.sqlCon.query(query, (error, result) => {
-            if (error) throw error;
-        });
+    console.log(`Adding emote ${emote.name} to database`);
+    client.sqlCon.query(query, (error) => {
+      if (error) throw error;
     });
-    console.log("Emote scan complete");
+  });
+  console.log('Emote scan complete');
 }
 
-function formatDate(date) {
-    const monthNames = [
-        "January", "February", "March",
-        "April", "May", "June", "July",
-        "August", "September", "October",
-        "November", "December"
-    ];
-
-    const day = date.getDate();
-    const monthIndex = date.getMonth();
-    const year = date.getFullYear();
-
-    return `${monthNames[monthIndex]} ${day}, ${year}`;
-}
 module.exports.scanUsers = scanUsers;
 module.exports.addUser = addUser;
 module.exports.scanEmotes = scanEmotes;
-module.exports.formatDate = formatDate;
