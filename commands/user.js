@@ -1,27 +1,31 @@
 const Discord = require('discord.js');
-exports.run = (client, message, userTag) => {
-  const numMatch = new RegExp(/\d+/);
-  if (numMatch.test(userTag[0])) {
-    // Process UserID out of args array
-    const userId = numMatch.exec(userTag[0])[0];
+const dbUtils = require('../helpers/databaseUtils');
+const db = dbUtils.getDbConnection();
+
+/**
+ * Fetch information about a user
+ *
+ * @param {Discord.Message} message - Message to process
+ */
+exports.run = (message) => {
+  if (message.mentions.users.size) {
+    const user = message.mentions.users.first();
 
     const query = `
       SELECT user.*, count(message.author_id) AS 'message_count'
       FROM message LEFT JOIN user
         ON user.discord_id=message.author_id
-      WHERE user.discord_id="${userId}"
+      WHERE user.discord_id="${user.id}"
       GROUP BY user.username
       LIMIT 1;
       `;
-
-    client.sqlCon.query(query, (error, result) => {
+    db.query(query, (error, result) => {
       if (error) throw error;
       // Find user ID from Discord
-      message.guild.members.fetch(userId).then((guildMember) => {
+      message.guild.members.fetch(user.id).then((guildMember) => {
         // Assemble the Embed
         const richEmbed = new Discord.MessageEmbed()
           .setColor('BLUE')
-          //.setAuthor(targetUser.displayName, targetUser.user.avatarURL)
           .setTitle(guildMember.displayName)
           .setThumbnail(guildMember.user.displayAvatarURL())
           .addField('Role', guildMember.roles.highest.name)
@@ -82,6 +86,6 @@ exports.run = (client, message, userTag) => {
       });
     });
   } else {
-    message.channel.send(`Sorry, I couldn't find that user`);
+    message.channel.send('You need to tag a user to use this command');
   }
 };

@@ -7,6 +7,9 @@
     "database": "",
     "prefix": "!",
     "defaultChannelId": "",
+    "serverId":"",
+    "ignoreChannels": [],
+    "defaultRole": "",
     "goldenRate": 4,
     "plateRate": 4,
     "goldenImages": ["http://i.imgur.com/Qvpx2KK.png"]

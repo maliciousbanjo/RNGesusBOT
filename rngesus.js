@@ -1,33 +1,21 @@
 const utils = require('./helpers/utils.js');
-const { Client, Intents } = require('discord.js');
-const Enmap = require('enmap');
+const Discord = require('discord.js');
 const fs = require('fs');
 const config = require('./config.json');
-const mysql = require('mysql');
+const dbUtils = require('./helpers/databaseUtils');
+const db = dbUtils.getDbConnection();
 
 // CLIENT SETUP
-const myIntents = new Intents();
-myIntents.add('GUILD_MEMBERS', Intents.NON_PRIVILEGED);
+const myIntents = new Discord.Intents();
+myIntents.add('GUILD_MEMBERS', Discord.Intents.NON_PRIVILEGED);
 
-const client = new Client({
+const client = new Discord.Client({
   ws: { intents: myIntents },
   fetchAllMembers: true,
 });
 client.config = config; // Make config accessible everywhere
 
-// CREATE MYSQL CONNECTION, BIND TO DISCORD CLIENT
-client.sqlCon = mysql.createConnection({
-  host: config.dbHost,
-  user: config.dbUsername,
-  password: config.dbPassword,
-  database: config.database,
-  multipleStatements: true,
-});
-
-client.sqlCon.connect((error) => {
-  if (error) throw error;
-  console.log('Connected to MySQL');
-});
+db.connect();
 
 fs.readdir('./events/', (err, files) => {
   if (err) return console.error(err);
@@ -38,7 +26,7 @@ fs.readdir('./events/', (err, files) => {
   });
 });
 
-client.commands = new Enmap();
+client.commands = new Discord.Collection();
 
 fs.readdir('./commands/', (err, files) => {
   if (err) return console.error(err);

@@ -14,7 +14,7 @@
     "Discord",
     "Bot"
   ],
-  "author": "MaliciousBn\banjo",
+  "author": "MaliciousBanjo",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/maliciousBanjo/RNGE%08esusBOT/issues"
@@ -23,7 +23,6 @@
   "dependencies": {
     "discord.js": "^12.5.1",
     "enmap": "^5.8.4",
-    "eslint": "^7.20.0",
     "install-peers": "^1.0.3",
     "lodash": ">=4.17.21",
     "mysql": "^2.18.1",
@@ -37,5 +36,9 @@
     "trailingComma": "all",
     "singleQuote": true,
     "printWidth": 80
+  },
+  "devDependencies": {
+    "eslint": "^7.20.0",
+    "eslint-plugin-jsdoc": "^32.1.0"
   }
 }

@@ -1,111 +1,115 @@
+const Discord = require('discord.js');
+const dbUtils = require('../helpers/databaseUtils');
+const db = dbUtils.getDbConnection();
+
+/**
+ * Event handler for message
+ *
+ * @param {Discord.Client} client - Discord client connection
+ * @param {Discord.Message} message - Incoming message to process
+ */
 module.exports = (client, message) => {
-    // Ignore bots and testing channel
-    if (message.author.bot) return;
+  // Ignore bots and testing channel
+  if (message.author.bot) return;
 
-    // USER MESSAGE COUNT
-    // TODO: this should be a configurable array of channel IDs to ignore
-    //if (message.channel.id != "526091649667956745" && message.channel.id != "303282388237025282") { // Test messages don't count
-        addMessage(message);
-    //}
-    
-    // SCAN MESSAGE FOR CUSTOM EMOTES
-    scanForEmotes(message, client);
+  // Add message info to DB, this is used for user message count
+  if (!client.config.ignoreChannels.includes(message.channel.id)) {
+    addMessageToDB(client, message);
+  }
 
-    // COMMAND WITH ARGS
-    if (message.content.indexOf(client.config.prefix) === 0) {
-        const args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
-        const command = args.shift().toLowerCase();
+  // Scan message for custom emotes
+  scanForEmoji(client, message);
 
-        const cmd = client.commands.get(command);
+  // Scan for command, execute if applicable
+  if (message.content.indexOf(client.config.prefix) === 0) {
+    const args = message.content
+      .slice(client.config.prefix.length)
+      .trim()
+      .split(/ +/g);
+    const command = args.shift().toLowerCase();
 
-        if (cmd) {
-            console.log(`Running ${command}`);
-            cmd.run(client, message, args);
-            return;
-        }
+    try {
+      client.commands.get(command).run(message, args);
+    } catch (error) {
+      console.error(error);
+      message.reply('Sorry, that command is not valid');
     }
+  }
 
-    // COMMAND NO ARGS
-    if (message.content.includes(client.config.prefix)) {
-        // Able to run the command at any location in the string
-        const command = message.content.substr(message.content.indexOf(client.config.prefix)+1).split(/ +/g)[0];
-    
-        // Grab the command data from the client.commands Enmap
-        const cmd = client.commands.get(command);
+  // TODO: This is deprecated, get it out
+  // KEK CHECK
+  if (message.content.toLowerCase().includes('kek')) {
+    const kek = client.commands.get('kek');
+    kek.run(client, message);
+  }
+};
 
-        if (cmd) {
-            console.log(`Running ${command}`);
-            cmd.run(client, message);
-            return;
-        }
-    }
+/**
+ * Insert a record of a new message
+ *
+ * @param {Discord.Client} client - Discord client connection
+ * @param {Discord.Message} message - Message to add
+ */
+const addMessageToDB = (client, message) => {
+  const timestamp = Math.round(message.createdAt.getTime() / 1000);
+  const query = `
+    INSERT INTO message (message_id, author_id, channel_id, epoch)
+    VALUES ("${message.id}", "${message.author.id}", "${message.channel.id}", ${timestamp})
+    `;
 
-    // KEK CHECK
-    if (message.content.toLowerCase().includes('kek')) {
-        const kek = client.commands.get('kek');
-        kek.run(client, message);
-    }
+  db.query(query, (error) => {
+    if (error) throw error;
+  });
+};
 
+/**
+ * Check if a message contains emotes. If it does, update each unique instance of an emote.
+ *
+ * @param {Discord.Client} client - Discord client connection
+ * @param {Discord.Message} message - Message to scan
+ */
+const scanForEmoji = (client, message) => {
+  const emojiSet = [...new Set(message.content.match(/<:\w*:\d*>/gm))];
+  if (emojiSet !== null) {
+    emojiSet.forEach((identifier) => {
+      const emojiName = identifier.match(/:(.*?):/)[1]; // Parse out emoji name
+      const emoji = message.guild.emojis.cache.find(
+        (emoji) => emoji.name === emojiName,
+      );
+      if (emoji !== undefined) {
+        // Emoji exists in this server
+        updateEmojiInDB(client, emoji);
+      }
+    });
+  }
+};
 
-    /**
-     * Update the server emote usage
-     * @param {Discord.Emoji} emote  The emote being updated
-     */
-    function updateEmote(emote) {
-        const query = `
-            UPDATE emote
-                SET count = count + 1
-                WHERE name = "${emote.name}"
+/**
+ * Update the server emoji usage in the database
+ *
+ * @param {Discord.Client} client - Discord client connection
+ * @param {Discord.Emoji} emoji - The emoji being updated
+ */
+const updateEmojiInDB = (client, emoji) => {
+  const query = `
+    UPDATE emote
+      SET count = count + 1
+      WHERE name = "${emoji.name}"
+    `;
+
+  db.query(query, (error, result) => {
+    if (error) throw error;
+    if (result.affectedRows === 0) {
+      console.log(
+        `Unregistered emote "${emoji.name}" used; registering now...`,
+      );
+      const query = `
+        INSERT INTO emote (name, emote_id, count)
+        VALUES ("${emoji.name}", "${emoji.id}", 1)
         `;
-
-        client.sqlCon.query(query, (error, result) => {
-            if (error) throw error;
-            if (result.affectedRows === 0) {
-                console.log(`Unregistered emote "${emote.name}" used; registering now...`);
-                const query = `
-                    INSERT INTO emote (name, emote_id, count)
-                    VALUES ("${emote.name}", "${emote.id}", 1)
-                `;
-                client.sqlCon.query(query, (error, result) => {
-                    if (error) throw error;
-                });
-            }
-        });
+      db.query(query, (error) => {
+        if (error) throw error;
+      });
     }
-
-
-    /**
-     * Insert a record of a new message
-     * @param {Discord.Message} message Message being processed
-     */
-    function addMessage(message) {
-        const timestamp = Math.round(message.createdAt.getTime() / 1000);
-        const query = `
-            INSERT INTO message (message_id, author_id, channel_id, epoch)
-            VALUES ("${message.id}", "${message.author.id}", "${message.channel.id}", ${timestamp})
-        `;
-
-        client.sqlCon.query(query, (error, result) => {
-            if (error) throw error;
-        });
-    }
-
-    /**
-     * Check if a message contains emotes. If it does, update each unique instance of an emote.
-     * @param {Discord.Message} message Message being processed
-     * @param {Discord.Client} client Instance of client
-     */
-    function scanForEmotes(message, client) {
-        const emoteSet = [...new Set(message.content.match(/<:\w*:\d*>/mg))];
-        if (emoteSet !== null) {
-            emoteSet.forEach(identifier => {
-                const emoteName = identifier.match(/\:(.*?)\:/)[1]; // Parse out emote
-                let emote = client.emojis.find(emoji => emoji.name === emoteName);
-                if (emote !== null) {
-                    // Emoji exists in this server
-                    updateEmote(emote);
-                }
-            });
-        }
-    }
+  });
 };
