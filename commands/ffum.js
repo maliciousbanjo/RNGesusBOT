@@ -4,9 +4,9 @@ module.exports = {
   /**Command name */
   name: 'ffum',
   /**Command description */
-  description: 'Inverted Muffin face multi-emote',
+  description: 'Inverted Muffin face multi-emoji.',
   /**
-   * Inverted Muffin face multi-emote
+   * Inverted Muffin face multi-emoji.
    *
    * @param {Discord.Message} message - Message to process
    */

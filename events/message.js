@@ -17,8 +17,8 @@ module.exports = (client, message) => {
     addMessageToDB(client, message);
   }
 
-  // Scan message for custom emotes
-  scanForEmoji(client, message);
+  // Filter message for custom emoji
+  checkForEmoji(client, message);
 
   // Scan for command, execute if applicable
   if (message.content.indexOf(client.config.prefix) === 0) {
@@ -55,7 +55,7 @@ const addMessageToDB = (client, message) => {
   const query = `
     INSERT INTO message (message_id, author_id, channel_id, epoch)
     VALUES ("${message.id}", "${message.author.id}", "${message.channel.id}", ${timestamp})
-    `;
+  `;
 
   db.query(query, (error) => {
     if (error) throw error;
@@ -63,12 +63,12 @@ const addMessageToDB = (client, message) => {
 };
 
 /**
- * Check if a message contains emotes. If it does, update each unique instance of an emote.
+ * Check if a message contains emoji. If it does, update each unique instance of an emoji.
  *
  * @param {Discord.Client} client - Discord client connection
  * @param {Discord.Message} message - Message to scan
  */
-const scanForEmoji = (client, message) => {
+const checkForEmoji = (client, message) => {
   const emojiSet = [...new Set(message.content.match(/<:\w*:\d*>/gm))];
   if (emojiSet !== null) {
     emojiSet.forEach((identifier) => {
@@ -95,18 +95,18 @@ const updateEmojiInDB = (client, emoji) => {
     UPDATE emote
       SET count = count + 1
       WHERE name = "${emoji.name}"
-    `;
+  `;
 
   db.query(query, (error, result) => {
     if (error) throw error;
     if (result.affectedRows === 0) {
       console.log(
-        `Unregistered emote "${emoji.name}" used; registering now...`,
+        `Unregistered emoji "${emoji.name}" used; registering now...`,
       );
       const query = `
         INSERT INTO emote (name, emote_id, count)
         VALUES ("${emoji.name}", "${emoji.id}", 1)
-        `;
+      `;
       db.query(query, (error) => {
         if (error) throw error;
       });

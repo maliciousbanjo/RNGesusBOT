@@ -4,9 +4,9 @@ module.exports = {
   /**Command name */
   name: 'roll',
   /**Command description */
-  description: 'Roll a 20-sided die',
+  description: 'Roll a 20-sided die.',
   /**
-   * Roll a 20-sided die
+   * Roll a 20-sided die.
    *
    * @param {Discord.Message} message - Message to process
    */

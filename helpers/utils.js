@@ -27,7 +27,7 @@ module.exports = {
     const query = `
       INSERT IGNORE INTO user(discord_id, username)
       VALUES ("${user.id}", "${user.username}")
-      `;
+    `;
     console.log(`Adding user ${user.username} to database`);
     db.query(query, (error) => {
       if (error) throw error;
@@ -36,23 +36,23 @@ module.exports = {
 
   // TODO: I think this could be a multi-query. Make this and ScanUsers look similar.
   /**
-   * Scan the server for emotes and add them to the database (if new)
+   * Scan the server for emoji and add them to the database (if new)
    *
    * @param {Discord.Client} client - Discord client connection
    */
-  scanEmotes: (client) => {
-    console.log('Scanning emotes...');
+  scanEmoji: (client) => {
+    console.log('Scanning emoji...');
     let query = ``;
-    client.emojis.cache.each((emote) => {
+    client.emojis.cache.each((emoji) => {
       query = `
         INSERT IGNORE INTO emote (name, emote_id)
-        VALUES ("${emote.name}", "${emote.id}")
-        `;
-      console.log(`Adding emote ${emote.name} to database`);
+        VALUES ("${emoji.name}", "${emoji.id}")
+      `;
+      console.log(`Adding emoji ${emoji.name} to database`);
       db.query(query, (error) => {
         if (error) throw error;
       });
     });
-    console.log('Emote scan complete');
+    console.log('Emoji scan complete');
   },
 };

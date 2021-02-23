@@ -42,11 +42,11 @@ fs.readdir('./commands/', (err, files) => {
 // Event Handlers
 client.once('ready', () => {
   console.log('Logged in as ' + client.user.tag);
-  // Scan and add new users, emotes to the MySQL database
-  client.user.setActivity('God | !info');
+  // Scan and add new users, emoji to the MySQL database
+  client.user.setActivity('God | !help');
 
   utils.scanUsers(client, config.serverId);
-  utils.scanEmotes(client, config.serverId);
+  utils.scanEmoji(client, config.serverId);
 });
 
 client.on('error', (error) => {
