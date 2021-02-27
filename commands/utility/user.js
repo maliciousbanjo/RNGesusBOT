@@ -22,7 +22,7 @@ module.exports = {
         SELECT user.*, count(message.author_id) AS 'message_count'
         FROM message LEFT JOIN user
           ON user.discord_id=message.author_id
-        WHERE user.discord_id="${user.id}"
+        WHERE user.discord_id="12678300254917888"
         GROUP BY user.username
         LIMIT 1;
       `;
@@ -58,7 +58,7 @@ module.exports = {
               true,
             );
 
-          if (typeof result[0] != 'undefined') {
+          if (result[0]) {
             // Check if query received results
             if (result[0].message_count) {
               msgEmbed.addField(
@@ -66,26 +66,6 @@ module.exports = {
                 result[0].message_count.toLocaleString(),
                 true,
               );
-            }
-            if (result[0].kek_count !== 0) {
-              msgEmbed.addField(
-                'Kek Attempts',
-                result[0].kek_count.toLocaleString(),
-                true,
-              );
-            }
-            if (result[0].golden_count !== 0) {
-              msgEmbed.addField(
-                'Golden Keks',
-                result[0].golden_count.toLocaleString(),
-                true,
-              );
-            }
-            if (result[0].kek_count !== 0 && result[0].golden_count !== 0) {
-              const kekRatio = (
-                result[0].golden_count / result[0].kek_count
-              ).toFixed(3);
-              msgEmbed.addField('Kek Ratio', kekRatio, true);
             }
           } else {
             // This user has not posted any messages

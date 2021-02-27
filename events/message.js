@@ -52,13 +52,6 @@ module.exports = (client, message) => {
       message.reply('There was an error trying to run that command.');
     }
   }
-
-  // TODO: This is deprecated, get it out
-  // KEK CHECK
-  if (message.content.toLowerCase().includes('kek')) {
-    const kek = client.commands.get('kek');
-    kek.run(client, message);
-  }
 };
 
 /**

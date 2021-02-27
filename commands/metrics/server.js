@@ -29,13 +29,6 @@ module.exports = {
       GROUP BY username, discord_id 
       ORDER BY message_count DESC
       LIMIT 1;
-
-      SELECT MAX(user.golden_count) as golden_max, discord_id, username
-      FROM user
-      WHERE golden_count > 0
-      GROUP BY username, discord_id
-      ORDER BY golden_max DESC
-      LIMIT 1;
     `;
 
     db.query(query, (error, result) => {
@@ -73,17 +66,7 @@ module.exports = {
           true,
         );
       }
-      // Check if any golden keks have been awarded
-      if (result[3][0] !== undefined) {
-        const maxGoldenUser = message.guild.members.cache.get(
-          result[3][0].discord_id,
-        );
-        msgEmbed.addField(
-          'Top Kekker',
-          `${maxGoldenUser}: ${result[3][0].golden_max.toLocaleString()}`,
-          true,
-        );
-      }
+
       message.channel.send(msgEmbed);
     });
   },
