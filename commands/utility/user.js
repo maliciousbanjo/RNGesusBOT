@@ -22,7 +22,7 @@ module.exports = {
         SELECT user.*, count(message.author_id) AS 'message_count'
         FROM message LEFT JOIN user
           ON user.discord_id=message.author_id
-        WHERE user.discord_id="12678300254917888"
+        WHERE user.discord_id="${user.id}"
         GROUP BY user.username
         LIMIT 1;
       `;
@@ -46,7 +46,7 @@ module.exports = {
                 month: 'long',
                 day: 'numeric',
               }),
-              true,
+              false,
             )
             .addField(
               'Joined Server',
@@ -55,7 +55,7 @@ module.exports = {
                 month: 'long',
                 day: 'numeric',
               }),
-              true,
+              false,
             );
 
           if (result[0]) {
@@ -64,7 +64,7 @@ module.exports = {
               msgEmbed.addField(
                 'Messages',
                 result[0].message_count.toLocaleString(),
-                true,
+                false,
               );
             }
           } else {
