@@ -9,7 +9,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Removal of `!quote` command now that Discord natively supports replies.
 - Major refactoring under the hood
 - `!info` -> `!help`
+  - Use `!help [command name]` to get info on a specific command
   - Also refactored how the message is assembled
+- Changed terminology from "emote" to "emoji"
+  - Because that's what Discord officially uses
+- More robust permission-checking added
+- Commands organized into categories
 
 ## [3.0.0] - Released
 
