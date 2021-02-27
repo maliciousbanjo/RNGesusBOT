@@ -1,0 +1,13 @@
+{
+    "token": "",
+    "botAdmin": [""],
+    "dbHost": "",
+    "dbUsername": "",
+    "dbPassword": "",
+    "database": "",
+    "prefix": "!",
+    "serverId":"",
+    "defaultChannelId": "",
+    "ignoreChannels": [],
+    "defaultRole": ""
+}

@@ -1,6 +1,6 @@
 {
   "name": "rngesusbot",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "A bot to interact with the Discord API for use on my server.",
   "main": "rngesus.js",
   "scripts": {
@@ -14,20 +14,31 @@
     "Discord",
     "Bot"
   ],
-  "author": "MaliciousBn\banjo",
+  "author": "MaliciousBanjo",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/maliciousBanjo/RNGE%08esusBOT/issues"
   },
   "homepage": "https://github.com/maliciousBanjo/RNGE%08esusBOT#readme",
   "dependencies": {
-    "discord.js": "^11.5.1",
-    "enmap": "^4.8.7",
+    "discord.js": "^12.5.1",
+    "enmap": "^5.8.4",
     "install-peers": "^1.0.3",
-    "lodash": ">=4.17.19",
-    "mysql": "^2.16.0",
-    "node-schedule": "^1.3.2",
+    "lodash": ">=4.17.21",
+    "mysql": "^2.18.1",
+    "node-schedule": "^2.0.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.5"
+  },
+  "prettier": {
+    "semi": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "singleQuote": true,
+    "printWidth": 80
+  },
+  "devDependencies": {
+    "eslint": "^7.20.0",
+    "eslint-plugin-jsdoc": "^32.1.0"
   }
 }
