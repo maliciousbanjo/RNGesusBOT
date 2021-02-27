@@ -15,7 +15,10 @@ module.exports = {
    */
   connect: () => {
     connection.connect((error) => {
-      if (error) throw error;
+      if (error) {
+        console.error(`MySQL ${error}`);
+        throw error;
+      }
       console.log('Connected to MySQL');
     });
   },

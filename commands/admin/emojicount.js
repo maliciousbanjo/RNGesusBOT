@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
-const config = require('../config.json');
-const dbUtils = require('../helpers/databaseUtils');
+const dbUtils = require('../../helpers/databaseUtils');
 const db = dbUtils.getDbConnection();
 
 module.exports = {
@@ -8,16 +7,15 @@ module.exports = {
   name: 'emojicount',
   /**Command description */
   description: 'Get the usage count of the top 15 emoji. Sent as a DM.',
+  usage: '',
+  category: 'Admin',
+  admin: true,
   /**
    * Get the usage count of the top 15 emoji. Sent as a DM.
    *
    * @param {Discord.Message} message - Message to process
    */
   run: (message) => {
-    if (message.author.id !== config.ownerId) {
-      message.reply("Sorry, you don't have permission to use that command");
-      return;
-    }
     const query = `
       SELECT name, count
       FROM emote
@@ -27,7 +25,10 @@ module.exports = {
     `;
 
     db.query(query, (error, result) => {
-      if (error) throw error;
+      if (error) {
+        console.error(`MySQL ${error}`);
+        throw error;
+      }
       if (result.length == 0) {
         message.author.createDM().then((dmChannel) => {
           dmChannel.send('There are no emoji recorded');

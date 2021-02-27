@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const dbUtils = require('../helpers/databaseUtils');
+const dbUtils = require('../../helpers/databaseUtils');
 const db = dbUtils.getDbConnection();
 
 module.exports = {
@@ -7,6 +7,8 @@ module.exports = {
   name: 'posts',
   /**Command description */
   description: 'List the top 10 posters in the server.',
+  usage: '',
+  category: 'Metrics',
   /**
    * List the top 10 posters in the server.
    *
@@ -24,7 +26,10 @@ module.exports = {
     `;
 
     db.query(query, (error, result) => {
-      if (error) throw error;
+      if (error) {
+        console.error(`MySQL ${error}`);
+        throw error;
+      }
       if (result.length === 0) {
         message.channel.send('There are no recorded messages');
         return;

@@ -5,6 +5,8 @@ module.exports = {
   name: 'roll',
   /**Command description */
   description: 'Roll a 20-sided die.',
+  usage: '',
+  category: 'Fun',
   /**
    * Roll a 20-sided die.
    *

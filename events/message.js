@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const dbUtils = require('../helpers/databaseUtils');
+const utils = require('../helpers/utils');
 const db = dbUtils.getDbConnection();
 
 /**
@@ -28,11 +29,27 @@ module.exports = (client, message) => {
       .split(/ +/g);
     const command = args.shift().toLowerCase();
 
+    if (!client.commands.has(command)) {
+      message.reply(`Sorry, that's not a valid command.`);
+      return;
+    }
+
     try {
-      client.commands.get(command).run(message, args);
+      const cmd = client.commands.get(command);
+      if (cmd.admin) {
+        // This command is only allowed to bot admins
+        if (!utils.isAdmin(message.author.id)) {
+          message.reply(
+            `Sorry, you don't have permission to use that command.`,
+          );
+          return;
+        }
+      }
+
+      cmd.run(message, args);
     } catch (error) {
       console.error(error);
-      message.reply('Sorry, that command is not valid');
+      message.reply('There was an error trying to run that command.');
     }
   }
 
@@ -58,7 +75,10 @@ const addMessageToDB = (client, message) => {
   `;
 
   db.query(query, (error) => {
-    if (error) throw error;
+    if (error) {
+      console.error(`MySQL ${error}`);
+      throw error;
+    }
   });
 };
 
@@ -98,7 +118,10 @@ const updateEmojiInDB = (client, emoji) => {
   `;
 
   db.query(query, (error, result) => {
-    if (error) throw error;
+    if (error) {
+      console.error(`MySQL ${error}`);
+      throw error;
+    }
     if (result.affectedRows === 0) {
       console.log(
         `Unregistered emoji "${emoji.name}" used; registering now...`,
@@ -108,7 +131,10 @@ const updateEmojiInDB = (client, emoji) => {
         VALUES ("${emoji.name}", "${emoji.id}", 1)
       `;
       db.query(query, (error) => {
-        if (error) throw error;
+        if (error) {
+          console.error(`MySQL ${error}`);
+          throw error;
+        }
       });
     }
   });

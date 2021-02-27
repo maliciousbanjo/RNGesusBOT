@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const dbUtils = require('../helpers/databaseUtils');
+const dbUtils = require('../../helpers/databaseUtils');
 const db = dbUtils.getDbConnection();
 
 module.exports = {
@@ -7,6 +7,8 @@ module.exports = {
   name: 'server',
   /**Command description */
   description: 'Fetch information about the server.',
+  usage: '',
+  category: 'Metrics',
   /**
    * Fetch information about the server.
    *
@@ -37,7 +39,10 @@ module.exports = {
     `;
 
     db.query(query, (error, result) => {
-      if (error) throw error;
+      if (error) {
+        console.error(`MySQL ${error}`);
+        throw error;
+      }
       const topEmoji = message.guild.emojis.cache.find(
         (emoji) => emoji.name === result[0][0].name,
       );
@@ -45,7 +50,7 @@ module.exports = {
       const msgEmbed = new Discord.MessageEmbed()
         .setColor('BLUE')
         .setTitle(message.guild.name)
-        .setThumbnail(message.guild.iconURL)
+        .setThumbnail(message.guild.iconURL())
         .addField(
           'Created',
           message.guild.createdAt.toLocaleDateString('en-us', {

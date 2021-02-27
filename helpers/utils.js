@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const config = require('../config.json');
 const dbUtils = require('./databaseUtils');
 const db = dbUtils.getDbConnection();
 
@@ -30,7 +31,10 @@ module.exports = {
     `;
     console.log(`Adding user ${user.username} to database`);
     db.query(query, (error) => {
-      if (error) throw error;
+      if (error) {
+        console.error(`MySQL ${error}`);
+        throw error;
+      }
     });
   },
 
@@ -50,9 +54,72 @@ module.exports = {
       `;
       console.log(`Adding emoji ${emoji.name} to database`);
       db.query(query, (error) => {
-        if (error) throw error;
+        if (error) {
+          console.error(`MySQL ${error}`);
+          throw error;
+        }
       });
     });
     console.log('Emoji scan complete');
+  },
+
+  /**
+   * Verify a user is listed in the config file as a BotAdmin.
+   *
+   * @param {string} userId - User ID to check permissions.
+   * @returns {boolean} True if admin.
+   */
+  isAdmin: (userId) => {
+    if (config.botAdmin.includes(userId)) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+  /**
+   * Validate all of the fields in the config file
+   *
+   * @param {Discord.Client} client - Discord client connection
+   * @returns {boolean} True if config is valid
+   */
+  validateConfig: (client) => {
+    // Token handled by login
+    // Database handled by MySQL
+
+    // prefix
+    if (!config.prefix) {
+      console.error('prefix cannot be null');
+      return false;
+    }
+
+    // serverId
+    const guild = client.guilds.cache.get(config.serverId);
+    if (!guild) {
+      console.error('config.serverId could not be validated.');
+      return false;
+    }
+    // defaultChannelId
+    if (!guild.channels.cache.get(client.config.defaultChannelId)) {
+      console.error('config.defaultChannelId could not be validated.');
+      return false;
+    }
+    // ignoreChannels
+    for (const channelId of config.ignoreChannels) {
+      if (!guild.channels.cache.get(channelId)) {
+        console.error(
+          `config.ignoreChannels["${channelId}"] could not be validated.`,
+        );
+        return false;
+      }
+    }
+    // defaultRole
+    if (!guild.roles.cache.find((role) => role.name === config.defaultRole)) {
+      console.error('config.defaultRole could not be validated.');
+      return false;
+    }
+
+    console.log('Configuration validated.');
+    return true;
   },
 };

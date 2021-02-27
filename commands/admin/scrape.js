@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
-const config = require('../config.json');
-const dbUtils = require('../helpers/databaseUtils');
+const dbUtils = require('../../helpers/databaseUtils');
 const db = dbUtils.getDbConnection();
 
 module.exports = {
@@ -8,19 +7,19 @@ module.exports = {
   name: 'scrape',
   /**Command description */
   description:
-    'Scrape channel(s) of all messages and add their info to the database.',
+    'Scrape a channel of all messages and add the info to the database. ' +
+    'Will scrape all channels if a channel ID is not provided',
+  usage: '*<channel ID>',
+  category: 'Admin',
+  admin: true,
   /**
-   * Scrape channel(s) of all messages and add their info to the database.
+   * Scrape a channel of all messages and add the info to the database.
    * Will scrape all channels if a channel ID is not provided.
    *
    * @param {Discord.Message} message - Message to process
    * @param {Array<string>} channel_id - Channel ID to scrape
    */
   run: (message, channel_id = []) => {
-    if (message.author.id !== config.ownerId) {
-      message.reply('You do not have permission to run this command.');
-      return;
-    }
     if (channel_id === undefined || channel_id.length === 0) {
       // No channel was specified; grab them all
       message.guild.channels.cache.each((guildChannel) => {
@@ -121,7 +120,10 @@ async function scrapeMessages(channel) {
     // Execute query
     if (messageValues.length !== 0) {
       db.query(messageQuery, [messageValues], (error) => {
-        if (error) throw error;
+        if (error) {
+          console.error(`MySQL ${error}`);
+          throw error;
+        }
       });
     }
 
@@ -163,7 +165,10 @@ function updateEmoji(emoji, count) {
   `;
   // Execute SQL query
   db.query(query, (error, result) => {
-    if (error) throw error;
+    if (error) {
+      console.error(`MySQL ${error}`);
+      throw error;
+    }
     if (result.affectedRows === 0) {
       console.log(
         `Unregistered emoji "${emoji.name}" used; registering now...`,
@@ -173,7 +178,10 @@ function updateEmoji(emoji, count) {
         VALUES ("${emoji.name}", "${emoji.id}", 1)
       `;
       db.query(query, (error) => {
-        if (error) throw error;
+        if (error) {
+          console.error(`MySQL ${error}`);
+          throw error;
+        }
       });
     }
   });

@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const dbUtils = require('../helpers/databaseUtils');
+const dbUtils = require('../../helpers/databaseUtils');
 const db = dbUtils.getDbConnection();
 
 module.exports = {
@@ -7,6 +7,8 @@ module.exports = {
   name: 'emoji',
   /**Command description */
   description: 'Get the top 10 emoji.',
+  usage: '',
+  category: 'Metrics',
   /**
    * Get the top 10 emoji.
    *
@@ -22,7 +24,10 @@ module.exports = {
     `;
 
     db.query(query, (error, result) => {
-      if (error) throw error;
+      if (error) {
+        console.error(`MySQL ${error}`);
+        throw error;
+      }
       if (result.length == 0) {
         message.channel.send('There are no emoji recorded');
         return;

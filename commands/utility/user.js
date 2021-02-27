@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const dbUtils = require('../helpers/databaseUtils');
+const dbUtils = require('../../helpers/databaseUtils');
 const db = dbUtils.getDbConnection();
 
 module.exports = {
@@ -7,10 +7,12 @@ module.exports = {
   name: 'user',
   /**Command description */
   description: 'Fetch information about a user.',
+  usage: '<user>',
+  category: 'Utility',
   /**
    * Fetch information about a user.
    *
-   * @param {Discord.Message} message - Message to process
+   * @param {Discord.Message} message - Message to process. Must contain a tagged user.
    */
   run: (message) => {
     if (message.mentions.users.size) {
@@ -25,7 +27,10 @@ module.exports = {
         LIMIT 1;
       `;
       db.query(query, (error, result) => {
-        if (error) throw error;
+        if (error) {
+          console.error(`MySQL ${error}`);
+          throw error;
+        }
         // Find user ID from Discord
         message.guild.members.fetch(user.id).then((guildMember) => {
           // Assemble the Embed

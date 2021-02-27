@@ -8,7 +8,10 @@ exports.run = (client, message) => {
     WHERE (discord_id = "${message.author.id}")
   `;
   client.sqlCon.query(query, (error, result) => {
-    if (error) throw error;
+    if (error) {
+  console.error(`MySQL ${error}`);
+  throw error;
+};
   });
 
   // Golden: 6%
@@ -50,7 +53,10 @@ exports.run = (client, message) => {
       WHERE (discord_id = "${message.author.id}")
     `;
     client.sqlCon.query(userQuery, (error, result) => {
-      if (error) throw error;
+      if (error) {
+  console.error(`MySQL ${error}`);
+  throw error;
+};
     });
     return;
   }
@@ -65,7 +71,10 @@ exports.run = (client, message) => {
       WHERE discord_id = "${message.author.id}"
     `;
     client.sqlCon.query(query, (error, result, fields) => {
-      if (error) throw error;
+      if (error) {
+  console.error(`MySQL ${error}`);
+  throw error;
+};
       const golden_kek_count = result[0].golden_count;
       // Update the 'user' table
       const userQuery = `
@@ -74,7 +83,10 @@ exports.run = (client, message) => {
         WHERE (discord_id = "${message.author.id}")
       `;
       client.sqlCon.query(userQuery, (error, result, fields) => {
-        if (error) throw error;
+        if (error) {
+  console.error(`MySQL ${error}`);
+  throw error;
+};
         message.reply(
           'Your golden kek has been stolen by a platelet!' +
             `\nYour Golden Kek count is now ${golden_kek_count - 1}`,

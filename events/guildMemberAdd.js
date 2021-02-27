@@ -14,14 +14,13 @@ module.exports = (client, guildMember) => {
     (role) => role.name === config.defaultRole,
   );
 
-  // TODO: Handling for if this role couldn't be found
   guildMember.roles.add(defaultRole.id);
   console.log(`${guildMember.user.username} has joined the server.`);
 
   // Add the user to the MySQL database
   utils.addUser(guildMember.user);
 
-  const channel = guildMember.guild.channels.resolve(
+  const channel = guildMember.guild.cache.get(client.config.defaultChannelId)(
     client.config.defaultChannelId,
   );
 
