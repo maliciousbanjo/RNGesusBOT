@@ -3,7 +3,6 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const config = require('./config.json');
 const dbUtils = require('./helpers/databaseUtils');
-//const db = dbUtils.getDbConnection();
 
 // Connect to the database
 dbUtils.connect();
@@ -17,7 +16,6 @@ const client = new Discord.Client({
   fetchAllMembers: true,
   precense: { status: 'invisible' },
 });
-client.config = config; // Make config accessible everywhere
 
 // Load events
 try {

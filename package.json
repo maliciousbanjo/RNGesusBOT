@@ -27,6 +27,7 @@
     "lodash": ">=4.17.21",
     "mysql": "^2.18.1",
     "node-schedule": "^2.0.0",
+    "quickchart-js": "^1.0.6",
     "request": "^2.88.0",
     "request-promise": "^4.2.5"
   },

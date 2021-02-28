@@ -20,8 +20,8 @@ module.exports = (client, guildMember) => {
   // Add the user to the MySQL database
   utils.addUser(guildMember.user);
 
-  const channel = guildMember.guild.cache.get(client.config.defaultChannelId)(
-    client.config.defaultChannelId,
+  const channel = guildMember.guild.cache.get(config.defaultChannelId)(
+    config.defaultChannelId,
   );
 
   // TODO: Test this in the real server, see what happens

@@ -100,7 +100,7 @@ module.exports = {
       return false;
     }
     // defaultChannelId
-    if (!guild.channels.cache.get(client.config.defaultChannelId)) {
+    if (!guild.channels.cache.get(config.defaultChannelId)) {
       console.error('config.defaultChannelId could not be validated.');
       return false;
     }

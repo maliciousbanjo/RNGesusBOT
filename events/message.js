@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
-const dbUtils = require('../helpers/databaseUtils');
+const config = require('../config.json');
 const utils = require('../helpers/utils');
+const dbUtils = require('../helpers/databaseUtils');
 const db = dbUtils.getDbConnection();
 
 /**
@@ -14,7 +15,7 @@ module.exports = (client, message) => {
   if (message.author.bot) return;
 
   // Add message info to DB, this is used for user message count
-  if (!client.config.ignoreChannels.includes(message.channel.id)) {
+  if (!config.ignoreChannels.includes(message.channel.id)) {
     addMessageToDB(client, message);
   }
 
@@ -22,9 +23,9 @@ module.exports = (client, message) => {
   checkForEmoji(client, message);
 
   // Scan for command, execute if applicable
-  if (message.content.indexOf(client.config.prefix) === 0) {
+  if (message.content.indexOf(config.prefix) === 0) {
     const args = message.content
-      .slice(client.config.prefix.length)
+      .slice(config.prefix.length)
       .trim()
       .split(/ +/g);
     const command = args.shift().toLowerCase();
