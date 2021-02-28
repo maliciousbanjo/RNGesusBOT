@@ -7,6 +7,7 @@ module.exports = {
   name: 'emoji',
   /**Command description */
   description: 'Get the top 10 emoji.',
+  /**Command usage example */
   usage: '',
   category: 'Metrics',
   /**

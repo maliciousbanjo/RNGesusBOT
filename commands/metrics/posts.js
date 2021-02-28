@@ -7,7 +7,8 @@ module.exports = {
   name: 'posts',
   /**Command description */
   description: 'List the top 10 posters in the server.',
-  usage: '',
+  /**Command usage example */
+  usage: '*<user>',
   category: 'Metrics',
   /**
    * List the top 10 posters in the server.
@@ -15,11 +16,12 @@ module.exports = {
    * @param {Discord.Message} message - Message to process
    */
   run: (message) => {
+    // No user was tagged; list the top 10 posters
     const query = `
-      SELECT user.*, count(message.author_id) AS 'message_count' 
+      SELECT user.username, user.discord_id, count(message.author_id) AS 'message_count' 
       FROM message LEFT JOIN user 
           ON user.discord_id=message.author_id 
-      WHERE username!='RNGesus' 
+      WHERE user.discord_id!='${message.client.user.id}'
       GROUP BY discord_id 
       ORDER BY message_count 
       DESC LIMIT 10

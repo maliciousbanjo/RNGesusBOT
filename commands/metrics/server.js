@@ -7,6 +7,7 @@ module.exports = {
   name: 'server',
   /**Command description */
   description: 'Fetch information about the server.',
+  /**Command usage example */
   usage: '',
   category: 'Metrics',
   /**

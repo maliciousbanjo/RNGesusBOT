@@ -5,6 +5,7 @@ module.exports = {
   name: 'test',
   /**Command description */
   description: 'Internal command, used for triggering test scenarios.',
+  /**Command usage example */
   usage: '',
   category: 'Admin',
   admin: true,

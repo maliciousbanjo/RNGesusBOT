@@ -8,6 +8,7 @@ module.exports = {
   name: 'help',
   /**Command description */
   description: 'List all commands.',
+  /**Command usage example */
   usage: '*[command name]',
   category: 'Utility',
   /**

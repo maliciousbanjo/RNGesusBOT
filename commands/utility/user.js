@@ -7,6 +7,7 @@ module.exports = {
   name: 'user',
   /**Command description */
   description: 'Fetch information about a user.',
+  /**Command usage example */
   usage: '<user>',
   category: 'Utility',
   /**
@@ -16,13 +17,13 @@ module.exports = {
    */
   run: (message) => {
     if (message.mentions.users.size) {
-      const user = message.mentions.users.first();
+      const taggedUser = message.mentions.users.first();
 
       const query = `
         SELECT user.*, count(message.author_id) AS 'message_count'
         FROM message LEFT JOIN user
           ON user.discord_id=message.author_id
-        WHERE user.discord_id="${user.id}"
+        WHERE user.discord_id='${taggedUser.id}'
         GROUP BY user.username
         LIMIT 1;
       `;
@@ -32,7 +33,7 @@ module.exports = {
           throw error;
         }
         // Find user ID from Discord
-        message.guild.members.fetch(user.id).then((guildMember) => {
+        message.guild.members.fetch(taggedUser.id).then((guildMember) => {
           // Assemble the Embed
           const msgEmbed = new Discord.MessageEmbed()
             .setColor('BLUE')

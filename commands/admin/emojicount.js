@@ -7,6 +7,7 @@ module.exports = {
   name: 'emojicount',
   /**Command description */
   description: 'Get the usage count of the top 15 emoji. Sent as a DM.',
+  /**Command usage example */
   usage: '',
   category: 'Admin',
   admin: true,

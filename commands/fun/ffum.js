@@ -5,6 +5,7 @@ module.exports = {
   name: 'ffum',
   /**Command description */
   description: 'Inverted Muffin face multi-emoji.',
+  /**Command usage example */
   usage: '',
   category: 'Fun',
   /**

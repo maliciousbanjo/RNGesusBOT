@@ -9,6 +9,7 @@ module.exports = {
   description:
     'Scrape a channel of all messages and add the info to the database. ' +
     'Will scrape all channels if a channel ID is not provided',
+  /**Command usage example */
   usage: '*<channel ID>',
   category: 'Admin',
   admin: true,
