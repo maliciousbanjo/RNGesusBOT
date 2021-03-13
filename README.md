@@ -3,7 +3,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.0.0] - Current
+## [4.1.0] - Current
+
+- Introducing Charts, thanks to ChartJS and QuickChart.io
+  - Currently only available in `!posts`
+  - More (hopefully) to come!
+- Database now uses connection pooling, for efficiency and scalability
+
+## [4.0.0] - Released
 
 - Completely updated to support DiscordJS v12
 - Removal of `!quote` command now that Discord natively supports replies.

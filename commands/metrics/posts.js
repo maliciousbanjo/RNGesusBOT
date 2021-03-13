@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
-const QuickChart = require('quickchart-js');
 const dbUtils = require('../../helpers/databaseUtils');
-const db = dbUtils.getDbConnection();
+const db = dbUtils.getConnectionPool();
+const QuickChart = require('quickchart-js');
 
 module.exports = {
   /**Command name */
@@ -29,8 +29,54 @@ module.exports = {
     // Make sure to put this back above "GROUP BY"
     //      WHERE user.discord_id!='${message.client.user.id}'
 
+    // Fake data used to test charts
+    const fakeResult = [
+      {
+        username: 'Joe',
+        message_count: 103275,
+      },
+      {
+        username: 'Disco',
+        message_count: 90106,
+      },
+      {
+        username: 'Muffin',
+        message_count: 72850,
+      },
+      {
+        username: 'meez',
+        message_count: 63168,
+      },
+      {
+        username: 'Alec',
+        message_count: 41367,
+      },
+      {
+        username: 'Rob',
+        message_count: 33951,
+      },
+      {
+        username: 'Asou',
+        message_count: 10722,
+      },
+      {
+        username: 'Chubb',
+        message_count: 7696,
+      },
+      {
+        username: 'Luthien',
+        message_count: 7429,
+      },
+      {
+        username: 'Sam',
+        message_count: 4359,
+      },
+    ];
 
-    db.query(query, (error, result) => {
+    const userNames = fakeResult.map((userResult) => userResult.username);
+    const userData = fakeResult.map((userResult) => userResult.message_count);
+
+    db.query(query, async (error, result) => {
       if (error) {
         console.error(`MySQL ${error}`);
         throw error;
@@ -40,35 +86,76 @@ module.exports = {
         return;
       }
 
+      // Process result data for the chart
+      const guildMembers = result.map((dbResult) => {
+        return message.guild.members.cache.get(dbResult.discord_id).displayName;
+      });
+
+      const messageData = result.map((dbResult) => dbResult.message_count);
+
+      // ChartJS setup
       const chart = new QuickChart();
       chart.setConfig({
         type: 'horizontalBar',
         data: {
-          labels: [result[0].username, result[1].username],
-          datasets: [{
-            //label: 'Other Joe',
-            data: [result[0].message_count, result[1].message_count],
-            maxBarThickness: 5
-          }]
+          labels: guildMembers,
+          //labels: userNames,
+          datasets: [
+            {
+              label: 'Messages Sent',
+              //data: userData,
+              data: messageData,
+              backgroundColor: '#0099E1',
+            },
+          ],
         },
         options: {
+          legend: {
+            display: false,
+          },
+          title: {
+            display: true,
+            text: `Top Posters in ${message.guild.name}`,
+          },
           scales: {
-            xAxes: [{
-              ticks: {
-                beginAtZero: true,
-                callback: (value) => { if (value % 1 === 0 ) {return value;}}
-              }
-            }],
-          }
-        }
+            yAxes: [
+              {
+                ticks: {},
+              },
+            ],
+            xAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                  callback: (value) => {
+                    if (value % 1 === 0) {
+                      return value;
+                    }
+                  },
+                },
+                scaleLabel: {
+                  display: true,
+                  fontStyle: 'bold',
+                  labelString: 'Messages Sent',
+                },
+              },
+            ],
+          },
+        },
       });
-  
-      const chartEmbed = new Discord.MessageEmbed()
-      .setTitle("Joe Chart")
-      .setDescription("This is a chart")
-      .setImage(chart.getUrl());
-  
-      message.channel.send(chartEmbed);
+
+      chart.toBinary().then((buffer) => {
+        message.channel.send(new Discord.MessageAttachment(buffer));
+      });
+      /**Original Way */
+
+      // const chartEmbed = new Discord.MessageEmbed()
+      //   .setTitle(`Top Posters in ${message.guild.name}`)
+      //   //.setDescription('This is a chart')
+      //   .setColor('BLUE')
+      //   //.setThumbnail(message.guild.iconURL())
+      //   .setImage(chart.getUrl());
+      // message.channel.send(chartEmbed);
 
       // // Format ranking strings
       // let memberStr = ``;

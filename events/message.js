@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const config = require('../config.json');
 const utils = require('../helpers/utils');
 const dbUtils = require('../helpers/databaseUtils');
-const db = dbUtils.getDbConnection();
+const db = dbUtils.getConnectionPool();
 
 /**
  * Event handler for message

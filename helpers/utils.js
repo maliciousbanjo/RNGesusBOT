@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const config = require('../config.json');
 const dbUtils = require('./databaseUtils');
-const db = dbUtils.getDbConnection();
+const db = dbUtils.getConnectionPool();
 
 module.exports = {
   /**

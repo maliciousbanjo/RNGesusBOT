@@ -2,10 +2,12 @@ const utils = require('./helpers/utils.js');
 const Discord = require('discord.js');
 const fs = require('fs');
 const config = require('./config.json');
-const dbUtils = require('./helpers/databaseUtils');
+
+// TODO: Remove old database code
+//const dbUtils = require('./helpers/databaseUtils');
 
 // Connect to the database
-dbUtils.connect();
+//dbUtils.connect();
 
 // CLIENT SETUP
 const myIntents = new Discord.Intents();
@@ -50,6 +52,7 @@ try {
 
 // Event Handlers
 client.once('ready', () => {
+  client.destroy();
   console.log('Logged in as ' + client.user.tag);
   if (!utils.validateConfig(client)) {
     process.exit(1);
@@ -66,6 +69,11 @@ client.once('ready', () => {
 
 client.on('error', (error) => {
   console.error(error.message);
+});
+
+client.on('disconnect', (thing) => {
+  console.log("I'm disconnecting now");
+  console.log(thing);
 });
 
 // LOGIN

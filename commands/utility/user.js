@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const dbUtils = require('../../helpers/databaseUtils');
-const db = dbUtils.getDbConnection();
+const db = dbUtils.getConnectionPool();
 
 module.exports = {
   /**Command name */
