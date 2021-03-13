@@ -52,7 +52,6 @@ try {
 
 // Event Handlers
 client.once('ready', () => {
-  client.destroy();
   console.log('Logged in as ' + client.user.tag);
   if (!utils.validateConfig(client)) {
     process.exit(1);
