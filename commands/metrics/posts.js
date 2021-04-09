@@ -21,13 +21,12 @@ module.exports = {
     const query = `
       SELECT user.username, user.discord_id, count(message.author_id) AS 'message_count' 
       FROM message LEFT JOIN user 
-          ON user.discord_id=message.author_id 
+          ON user.discord_id=message.author_id
+      WHERE user.discord_id!='${message.client.user.id}'
       GROUP BY discord_id 
       ORDER BY message_count 
       DESC LIMIT 10
     `;
-    // Make sure to put this back above "GROUP BY"
-    //      WHERE user.discord_id!='${message.client.user.id}'
 
     // Fake data used to test charts
     const fakeResult = [
